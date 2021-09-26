@@ -4,7 +4,7 @@ interface Option{
     count: Number;// Votes received by Option
 }
 
-export interface dataReceived{
+export interface DataReceived{
     Question: string; // Question of poll
     opt: Array<Option> // Array of Options
     userID: string; //unique ID to Identify User
@@ -12,12 +12,12 @@ export interface dataReceived{
     adminID?: string
 };
 
-export interface paramData{
+export interface ParamData{
     uniqueID: string; //send By User
     adminID: string; //send by Admin
 }
 
-export interface voteData{
+export interface VoteData{
     uniqueID: string;//ID to identify Poll in database
     ID: string;// Option ID for voted option
 }

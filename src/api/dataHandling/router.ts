@@ -1,11 +1,11 @@
 import { Router ,Request,Response} from "express";
 import { requestValidation } from "../../shared/middlewares/validation";
 import { addData } from "./controller";
-import { dataSchema } from "./schema";
+import { DataSchema } from "./schema";
 
 export const dataHandler=(): Router=>{
     const app=Router();
-    app.post("/",requestValidation('body',dataSchema),handelData);
+    app.post("/",requestValidation('body',DataSchema),handelData);
     return app;
 }
 

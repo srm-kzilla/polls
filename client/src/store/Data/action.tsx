@@ -1,13 +1,13 @@
-import { optType } from "../../pages/HompePage"
+import { Option } from "../../pages/HompePage"
 
-export interface dataType{
+export interface DataType{
     Question: string,
-    opt: optType['opt'],
+    opt: Option[],
     adminUnique: string,
     userID: string
 }
 
-export const addData=(data: dataType)=>{
+export const addData=(data: DataType)=>{
     return(
        {
            type: 'ADD_DATA',

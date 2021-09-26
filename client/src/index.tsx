@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
+import { Provider as StateProvider} from 'react-redux';
 import store from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 
 
 ReactDOM.render(
   <BrowserRouter>
-  <Provider store={store}>
+  <StateProvider store={store}>
     <App />
- </Provider>
+ </StateProvider>
  </BrowserRouter> ,
   document.getElementById('root')
 );

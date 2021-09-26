@@ -1,8 +1,8 @@
 import { act } from "react-dom/test-utils";
-import { dataType } from "./action";
+import { DataType } from "./action";
 
 
-const dataReducer=(state={},action : {type: string,payload : dataType})=>{
+const dataReducer=(state={},action : {type: string,payload : DataType})=>{
     switch(action.type)
     {
         case 'ADD_DATA':

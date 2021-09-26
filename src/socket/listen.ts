@@ -1,10 +1,10 @@
 import { Socket } from "socket.io";
-import { dataReceived, paramData, voteData } from "../shared/customTypes";
+import { DataReceived, ParamData, VoteData } from "../shared/customTypes";
 import database  from "../shared/database";
 import { ackHandler, sendData, sendUpdatedVote } from "./emit";
 
 
-export const receiveData=async (data : dataReceived,io: any,socket: Socket)=>{
+export const receiveData=async (data : DataReceived,io: any,socket: Socket)=>{
       try{
           console.log(data);
           await(await database()).collection('polls').insertOne({...data,adminID: socket.id});
@@ -15,7 +15,7 @@ export const receiveData=async (data : dataReceived,io: any,socket: Socket)=>{
       }
 }
 
-export const sendDataHandler=async (data : paramData,io: any,socket: Socket)=>{
+export const sendDataHandler=async (data : ParamData,io: any,socket: Socket)=>{
      try{
         console.log(data)
         const databaseResponse=await(await database()).collection('polls').findOne({uniqueID: data.uniqueID})
@@ -27,7 +27,7 @@ export const sendDataHandler=async (data : paramData,io: any,socket: Socket)=>{
      }
 }
 
-export const voteHandler=async (data : voteData,io: any)=>{
+export const voteHandler=async (data : VoteData,io: any)=>{
      try{
          console.log(data)
          await(await database()).collection('polls').updateOne({uniqueID: data.uniqueID,"optData.data.num": parseInt(data.ID)}, {$inc: {"optData.$.count" : 1}});
