@@ -5,9 +5,7 @@ require('dotenv').config();
 
 
 export default {
-  /**
-   * Port the app should run on
-   */
+
   port: parseInt(process.env.PORT) || 5000,
 
   //CORS FOR SOCKET INTIALIZATION

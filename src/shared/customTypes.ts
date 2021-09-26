@@ -1,25 +1,23 @@
-
-type Option={
-     data: {
-         val: string;// Option
-         num: Number;// Unique Number to Identify each ques
-         placeholder: string;
-     };
-     count: Number;// Votes received by Option
+interface Option{
+    value: string;// Option
+    ID: string;// Unique Number to Identify each ques
+    count: Number;// Votes received by Option
 }
 
-export type dataReceived = {
+export interface dataReceived{
     Question: string; // Question of poll
-    optData: Array<Option> // Array of Options
-   uniqueID: string; //unique ID to Identify User
+    opt: Array<Option> // Array of Options
+    userID: string; //unique ID to Identify User
+    adminUnique: string,
+    adminID?: string
 };
 
-export type paramData={
+export interface paramData{
     uniqueID: string; //send By User
     adminID: string; //send by Admin
 }
 
-export type voteData={
+export interface voteData{
     uniqueID: string;//ID to identify Poll in database
     ID: string;// Option ID for voted option
 }

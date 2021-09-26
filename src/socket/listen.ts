@@ -1,29 +1,40 @@
+import { Socket } from "socket.io";
 import { dataReceived, paramData, voteData } from "../shared/customTypes";
 import database  from "../shared/database";
+import { ackHandler, sendData, sendUpdatedVote } from "./emit";
 
 
-export const receiveData=async (data : dataReceived,callback)=>{
+export const receiveData=async (data : dataReceived,io: any,socket: Socket)=>{
       try{
-          await(await database()).collection('polls').insertOne(data);
-          callback(true)
+          console.log(data);
+          await(await database()).collection('polls').insertOne({...data,adminID: socket.id});
+          ackHandler(io,socket,{sucess: true,msg: "Poll Created Successfully"});
       }catch(error){
-        console.log(error)
+          console.log(error)
+          ackHandler(io,socket,{sucess: false,msg: "Error in creating Poll"});
       }
 }
 
-export const sendData=async (data : paramData,callback)=>{
+export const sendDataHandler=async (data : paramData,io: any,socket: Socket)=>{
      try{
+        console.log(data)
         const databaseResponse=await(await database()).collection('polls').findOne({uniqueID: data.uniqueID})
         if(databaseResponse===null) throw Error('No Polls with that Unique ID')
-        callback(true)
+        sendData(io,socket,databaseResponse);
      }catch(error){
           console.log(error)
+          ackHandler(io,socket,{sucess: false,msg: error.message});
      }
 }
 
-export const sendVote=(data : voteData,callback)=>{
+export const voteHandler=async (data : voteData,io: any)=>{
      try{
-         callback(true)
+         console.log(data)
+         await(await database()).collection('polls').updateOne({uniqueID: data.uniqueID,"optData.data.num": parseInt(data.ID)}, {$inc: {"optData.$.count" : 1}});
+         const dataFetched=await(await database()).collection('polls').findOne({uniqueID: data.uniqueID})
+         console.log(dataFetched)
+         sendUpdatedVote(io,dataFetched)
+        //await (await database()).collection('User').updateOne({email: e.email, "Registered.ID": e.userID},{$set : {"Registered.$.scheduled": false, "Registered.$.scheduleDate": obj.selectedDate,"Registered.$.hospitalID": obj.hospitalID}})  
      }catch(error){
          console.log(error)
      } 
