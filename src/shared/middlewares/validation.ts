@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
 
-
 type RequestLocation = 'query' | 'body';
 
-export function requestValidation(location: RequestLocation, schema: yup.AnyObjectSchema) {
+export function validateRequest(location: RequestLocation, schema: yup.AnyObjectSchema) {
   return async (req: Request, res: Response, next: NextFunction) => {
     let _location: any;
     switch (location) {
@@ -15,10 +14,10 @@ export function requestValidation(location: RequestLocation, schema: yup.AnyObje
         _location = req.body;
     }
     try {
-      await schema.validate(_location);
+      await schema.validate(_location, { stripUnknown: true });
       next();
     } catch (err) {
-      res.send({status: false,msg: "Validation Failure"})
+      res.send({ status: false, msg: 'Validation Failure' });
     }
   };
 }

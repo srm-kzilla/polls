@@ -1,19 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider as ReduxStateProvider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider as StateProvider} from 'react-redux';
-import store from './store/store';
-import { BrowserRouter } from 'react-router-dom';
-
+import reduxStore from './store/store';
 
 ReactDOM.render(
   <BrowserRouter>
-  <StateProvider store={store}>
-    <App />
- </StateProvider>
- </BrowserRouter> ,
-  document.getElementById('root')
+    <ReduxStateProvider store={reduxStore}>
+      <App />
+    </ReduxStateProvider>
+  </BrowserRouter>,
+  document.getElementById('root'),
 );
-

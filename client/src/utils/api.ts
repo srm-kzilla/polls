@@ -1,8 +1,6 @@
-import axios,{AxiosInstance} from 'axios';
+import axios, { AxiosInstance } from 'axios';
+import constants from './constants';
 
-export const axiosReq: AxiosInstance= axios.create({
-    baseURL: "http://localhost:5000/"
+export const axiosReq: AxiosInstance = axios.create({
+  baseURL: constants.baseURL,
 });
-
-
-

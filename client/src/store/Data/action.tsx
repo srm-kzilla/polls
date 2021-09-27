@@ -1,17 +1,9 @@
-import { Option } from "../../pages/HompePage"
+import { Option } from '../../utils/interfaces';
+import { DataType } from '../../utils/interfaces';
 
-export interface DataType{
-    Question: string,
-    opt: Option[],
-    adminUnique: string,
-    userID: string
-}
-
-export const addData=(data: DataType)=>{
-    return(
-       {
-           type: 'ADD_DATA',
-           payload: data
-       }
-    )
-}
+export const addData = (data: DataType) => {
+  return {
+    type: 'ADD_DATA',
+    payload: data,
+  };
+};

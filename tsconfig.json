@@ -7,6 +7,6 @@
     "sourceMap": true,
     "outDir": "build"
   },
-  "exclude": ["node_modules", "tests","client"],
+  "exclude": ["node_modules", "tests", "client"],
   "lib": ["es2015"]
 }
