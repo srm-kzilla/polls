@@ -4,12 +4,12 @@ import { string } from 'yup/lib/locale';
 const OptionSchema = yup.object().shape({
   value: yup.string().required(),
   count: yup.number().required(),
-  ID: yup.string().required(),
+  id: yup.string().required(),
 });
 
 export const DataSchema = yup.object({
-  Question: yup.string().required(),
-  opt: yup.array().of(OptionSchema).required(),
-  userID: yup.string().required(),
-  adminUnique: yup.string().required(),
+  question: yup.string().required(),
+  options: yup.array().of(OptionSchema).required(),
+  userId: yup.string().required(),
+  adminId: yup.string().required(),
 });

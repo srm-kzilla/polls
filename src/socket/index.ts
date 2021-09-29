@@ -1,9 +1,6 @@
 import { Socket } from 'socket.io';
 import { DataReceived, ParamData, VoteData } from '../shared/customTypes';
-import sockEvents from '../shared/sockEvents';
 import { receiveData, sendDataHandler, voteHandler } from './listen';
-
-const { recv, send, vote } = sockEvents;
 
 export const intialize = (socket: Socket, io: any) => {
   console.log('INTIALLIZED');

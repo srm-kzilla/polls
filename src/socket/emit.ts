@@ -15,7 +15,7 @@ export const sendData = (io: any, socket: Socket, data: any) => {
 
 export const sendUpdatedVote = (io: any, data: any) => {
   try {
-    io.to(data.adminID).emit('update', { status: true, data });
+    io.emit('update', data);
   } catch (error) {
     console.log(error);
   }

@@ -1,16 +1,15 @@
 import express from 'express';
 import config from './config';
 import { Server, Socket } from 'socket.io';
-import sockEvents from './shared/sockEvents';
+import { socketEvents } from './shared/sockEvents';
 import { intialize } from './socket';
 import route from './api';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 
 const startServer = () => {
   const app = express();
   app.use(cors());
-  app.use(bodyParser.json());
+  app.use(express.json());
   app.use('/', route());
 
   const httpServer = app.listen(config.port, () => {
@@ -19,7 +18,7 @@ const startServer = () => {
 
   const io = new Server(httpServer, config.corsParms);
 
-  io.on(sockEvents.connect, (socket: Socket) => intialize(socket, io));
+  io.on(socketEvents.CONNECT, (socket: Socket) => intialize(socket, io));
 };
 
 startServer();

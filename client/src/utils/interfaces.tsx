@@ -5,8 +5,8 @@ export interface Option {
 }
 
 export interface DataType {
-  Question: string;
-  opt: Option[];
-  adminUnique: string;
-  userID: string;
+  question: string;
+  options: Option[];
+  adminId: string;
+  userId: string;
 }

@@ -6,7 +6,7 @@ import { ackHandler, sendData, sendUpdatedVote } from './emit';
 export const receiveData = async (data: DataReceived, io: any, socket: Socket) => {
   try {
     console.log(data);
-    await (await database()).collection('polls').insertOne({ ...data, adminID: socket.id });
+    await (await database()).collection('polls').insertOne({ ...data, adminId: socket.id });
     ackHandler(io, socket, { sucess: true, msg: 'Poll Created Successfully' });
   } catch (error) {
     console.log(error);
@@ -17,7 +17,10 @@ export const receiveData = async (data: DataReceived, io: any, socket: Socket) =
 export const sendDataHandler = async (data: ParamData, io: any, socket: Socket) => {
   try {
     console.log(data);
-    const databaseResponse = await (await database()).collection('polls').findOne({ uniqueID: data.uniqueID });
+    var databaseResponse;
+    if (data?.userId) databaseResponse = await (await database()).collection('polls').findOne({ userId: data.userId });
+    else if (data.adminId)
+      databaseResponse = await (await database()).collection('polls').findOne({ adminId: data.adminId });
     if (databaseResponse === null) throw Error('No Polls with that Unique ID');
     sendData(io, socket, databaseResponse);
   } catch (error) {
@@ -31,14 +34,10 @@ export const voteHandler = async (data: VoteData, io: any) => {
     console.log(data);
     await (await database())
       .collection('polls')
-      .updateOne(
-        { uniqueID: data.uniqueID, 'optData.data.num': parseInt(data.ID) },
-        { $inc: { 'optData.$.count': 1 } },
-      );
-    const dataFetched = await (await database()).collection('polls').findOne({ uniqueID: data.uniqueID });
+      .updateOne({ userId: data.userId, 'options.id': data.id }, { $inc: { 'options.$.count': 1 } });
+    const dataFetched = await (await database()).collection('polls').findOne({ userId: data.userId });
     console.log(dataFetched);
     sendUpdatedVote(io, dataFetched);
-    //await (await database()).collection('User').updateOne({email: e.email, "Registered.ID": e.userID},{$set : {"Registered.$.scheduled": false, "Registered.$.scheduleDate": obj.selectedDate,"Registered.$.hospitalID": obj.hospitalID}})
   } catch (error) {
     console.log(error);
   }

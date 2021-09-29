@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { History } from 'history';
-import { axiosReq } from '../../utils/api';
+import { handelData } from '../../utils/api';
 import { nanoid } from 'nanoid';
 import { Option } from '../../utils/interfaces';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
   history: History;
@@ -10,59 +12,55 @@ interface Props {
 
 const HomePage = ({ history }: Props) => {
   const [question, setQuestion] = useState<string>('');
-  const [opt, setOpt] = useState<Option[]>([]);
+  const [options, setOption] = useState<Option[]>([]);
   const [error, setError] = useState<string>('');
 
   const handelOptions = (event: any) => {
     const { name, value } = event.target;
-    const temp = opt.map((data: Option) => {
+    const temp = options.map((data: Option) => {
       if (data.id == name) {
         return { ...data, value: value };
       }
       return data;
     });
-    setOpt(temp);
+    setOption(temp);
   };
 
   const handelDelete = (event: any) => {
-    const temp = opt.filter((data: Option) => {
+    const temp = options.filter((data: Option) => {
       if (data.id != event.currentTarget.name) return data;
     });
-    setOpt(temp);
+    setOption(temp);
   };
 
   const validation = () => {
     if (question.length == 0) setError('Enter Valid Question');
-    else if (opt.length < 2 || opt.length > 6) setError('Mi 2 and Max 6 options are Required');
+    else if (options.length < 2 || options.length > 6) setError('Mi 2 and Max 6 options are Required');
     else {
       var check = false;
-      opt.map((data: Option) => {
+      options.map((data: Option) => {
         if (data.value.length == 0) check = true;
       });
       if (check) setError('Enter Valid Options');
     }
+    return;
   };
-  const sendData = async (obj: any) => {
-    console.log('HII');
-    axiosReq
-      .post('/data/', obj)
-      .then(res => res)
-      .catch(err => setError('There is some Error in Saving Your Data,Try Again.'));
-  };
+
   const handelSubmit = async (event: any) => {
     event.preventDefault();
     setError('');
     validation();
-    if (error.length == 0) {
-      const adminUnique = nanoid();
-      const userUnique = nanoid();
-      await sendData({ question, opt, adminUnique: adminUnique, userID: userUnique });
-      if (error.length == 0) history.push(`/admin/${adminUnique}`);
+
+    if (error.length === 0) {
+      const adminId = nanoid();
+      const userId = nanoid();
+      const res = await handelData({ question, options, adminId: adminId, userId: userId });
+      if (res) history.push(`/admin/${adminId}`);
     }
   };
 
   const handelAddOption = () => {
-    setOpt([...opt, { count: 0, value: '', id: nanoid(5) }]);
+    setOption([...options, { count: 0, value: '', id: nanoid(5) }]);
   };
 
   return (
@@ -76,7 +74,7 @@ const HomePage = ({ history }: Props) => {
           onChange={e => setQuestion(e.target.value)}
         ></input>
         <div>
-          {opt.map((option: Option) => (
+          {options.map((option: Option) => (
             <div>
               <input
                 type="text"
@@ -100,6 +98,7 @@ const HomePage = ({ history }: Props) => {
           Create Poll
         </button>
       </form>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };
