@@ -1,20 +1,20 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { validateRequest } from '../../shared/middlewares/validation';
 import { addData } from './controller';
 import { DataSchema } from './schema';
+import errorClasss from '../../shared/error';
 
 export const dataHandler = (): Router => {
   const app = Router();
-  app.post('/', validateRequest('Body', DataSchema), handelData);
+  app.post('/', validateRequest('body', DataSchema), handelData);
   return app;
 };
 
-const handelData = async (req: Request, res: Response) => {
+const handelData = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log(req.body);
-    await addData(req.body);
+    await addData(req.body, next);
     res.json({ status: true, data: 'Data added Successfully' });
   } catch (error) {
-    res.status(400).json({ status: false, data: error.message });
+    next(new errorClasss(error.message, 500));
   }
 };

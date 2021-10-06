@@ -4,6 +4,8 @@ import './App.css';
 import HomePage from './pages/HompePage';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Route exact path="/admin/:id" component={AdminPage} />
         <Route exact path="/user/:id" component={UserPage} />
       </Switch>
+      <ToastContainer></ToastContainer>
     </>
   );
 }

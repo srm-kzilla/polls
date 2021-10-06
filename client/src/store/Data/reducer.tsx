@@ -1,7 +1,7 @@
 import { act } from 'react-dom/test-utils';
-import { DataType } from '../../utils/interfaces';
+import { PollData } from '../../utils/interfaces';
 
-const dataReducer = (state = {}, action: { type: string; payload: DataType }) => {
+const dataReducer = (state = {}, action: { type: string; payload: PollData }) => {
   switch (action.type) {
     case 'ADD_DATA':
       return {

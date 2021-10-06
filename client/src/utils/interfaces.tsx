@@ -4,7 +4,7 @@ export interface Option {
   id: string;
 }
 
-export interface DataType {
+export interface PollData {
   question: string;
   options: Option[];
   adminId: string;

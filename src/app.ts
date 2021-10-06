@@ -5,11 +5,14 @@ import { socketEvents } from './shared/sockEvents';
 import { intialize } from './socket';
 import route from './api';
 import cors from 'cors';
+import { errorHandler } from './shared/middlewares/errorHandler';
 
 const startServer = () => {
   const app = express();
   app.use(cors());
   app.use(express.json());
+  app.use(errorHandler);
+
   app.use('/', route());
 
   const httpServer = app.listen(config.port, () => {
