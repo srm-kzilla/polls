@@ -2,24 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
-import constants from '../../utils/constants';
-import { socketEvents } from '../../utils/constants';
+import { URLS, SOCKET_EVENTS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
 
 let socket: Socket;
 
-interface adminProps {
+interface Admin {
   id: string;
 }
 const AdminPage = () => {
-  const { id } = useParams<adminProps>();
+  const { id } = useParams<Admin>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
   const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
-    socket = io(constants.baseURL);
-    socket.emit(socketEvents.GET_DATA, { adminId: id });
+    socket = io(URLS.BASE_URL);
+    socket.emit(SOCKET_EVENTS.GET_DATA, { adminId: id });
   }, [id]);
 
   const pollDataHandler = (pollData: PollData) => {
@@ -30,9 +29,9 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
-    socket.on(socketEvents.DATA, pollDataHandler);
-    socket.on(socketEvents.UPDATE, pollDataHandler);
-    socket.on(socketEvents.RESPONSE, error => {
+    socket.on(SOCKET_EVENTS.DATA, pollDataHandler);
+    socket.on(SOCKET_EVENTS.UPDATE, pollDataHandler);
+    socket.on(SOCKET_EVENTS.RESPONSE, error => {
       errorHandler('There is some issue, please try again');
     });
   });
@@ -50,7 +49,7 @@ const AdminPage = () => {
           ))}
       </div>
       <div>
-        <p>{`${constants.userURL}${userId}`}</p>
+        <p>{`${URLS.USER_URL}${userId}`}</p>
       </div>
     </div>
   );

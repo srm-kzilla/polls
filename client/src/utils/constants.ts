@@ -1,9 +1,9 @@
-export default {
-  baseURL: 'http://localhost:5000',
-  userURL: 'http://localhost:3000/user/',
+export const URLS = {
+  BASE_URL: 'http://localhost:5000',
+  USER_URL: 'http://localhost:3000/user/',
 };
 
-export const socketEvents = {
+export const SOCKET_EVENTS = {
   CONNECT: 'connection',
   GET_DATA: 'GET_DATA',
   SEND: 'SEND_DATA',

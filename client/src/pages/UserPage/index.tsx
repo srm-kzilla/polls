@@ -2,32 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
-import constants, { socketEvents } from '../../utils/constants';
+import { SOCKET_EVENTS, URLS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
 
 let socket: Socket;
 
-interface UserParams {
+interface User {
   id: string;
 }
 const UserPage = () => {
-  const { id } = useParams<UserParams>();
+  const { id } = useParams<User>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    socket = io(constants.baseURL);
-    socket.emit(socketEvents.GET_DATA, { userId: id });
+    socket = io(URLS.BASE_URL);
+    socket.emit(SOCKET_EVENTS.GET_DATA, { userId: id });
   }, [id]);
 
   useEffect(() => {
-    socket.on(socketEvents.DATA, (pollData: PollData) => {
+    socket.on(SOCKET_EVENTS.DATA, (pollData: PollData) => {
       console.log(pollData);
       setQuestions(pollData.question);
       setOptions([...pollData.options]);
     });
-    socket.on(socketEvents.RESPONSE, error => {
+    socket.on(SOCKET_EVENTS.RESPONSE, error => {
       errorHandler('There is some issue, please try again');
     });
   });
@@ -38,7 +38,7 @@ const UserPage = () => {
       errorHandler('YOu Have Already Voted');
     } else {
       localStorage.setItem(id, 'voted');
-      socket.emit(socketEvents.VOTE, { userId: id, id: optionID });
+      socket.emit(SOCKET_EVENTS.VOTE, { userId: id, id: optionID });
     }
   };
 

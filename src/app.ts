@@ -11,9 +11,8 @@ const startServer = () => {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  app.use(errorHandler);
-
   app.use('/', route());
+  app.use(errorHandler);
 
   const httpServer = app.listen(config.port, () => {
     console.log('RUNNING');

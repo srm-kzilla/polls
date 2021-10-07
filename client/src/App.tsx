@@ -15,7 +15,7 @@ function App() {
         <Route exact path="/admin/:id" component={AdminPage} />
         <Route exact path="/user/:id" component={UserPage} />
       </Switch>
-      <ToastContainer></ToastContainer>
+      <ToastContainer> </ToastContainer>
     </>
   );
 }

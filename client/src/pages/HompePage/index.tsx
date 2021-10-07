@@ -3,8 +3,6 @@ import { History } from 'history';
 import { handelData } from '../../utils/api';
 import { nanoid } from 'nanoid';
 import { Option } from '../../utils/interfaces';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
   history: History;
@@ -16,7 +14,7 @@ const HomePage = ({ history }: Props) => {
   const [error, setError] = useState<string>('');
 
   const handelOptions = (event: any) => {
-    const { name, value } = event.target;
+    const { name, value } = event?.target;
     const temp = options.map((data: Option) => {
       if (data.id == name) {
         return { ...data, value: value };
@@ -66,7 +64,7 @@ const HomePage = ({ history }: Props) => {
   return (
     <div>
       <form onSubmit={handelSubmit}>
-        {error.length > 0 ? <p>{error}</p> : null}
+        {error.length > 0 && <p>{error}</p>}
         <input
           value={question}
           type="text"
@@ -98,7 +96,6 @@ const HomePage = ({ history }: Props) => {
           Create Poll
         </button>
       </form>
-      <ToastContainer></ToastContainer>
     </div>
   );
 };

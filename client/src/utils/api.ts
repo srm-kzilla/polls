@@ -1,16 +1,16 @@
 import axios, { AxiosInstance } from 'axios';
 import { off } from 'process';
 import { toast } from 'react-toastify';
-import constants from './constants';
+import { URLS } from './constants';
 import { PollData } from './interfaces';
 
 export const axiosReq: AxiosInstance = axios.create({
-  baseURL: constants.baseURL,
+  baseURL: URLS.BASE_URL,
 });
 
 export const handelData = async (payload: PollData): Promise<boolean> => {
   try {
-    const res = await axiosReq.post(`${constants.baseURL}/data`, payload);
+    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, payload);
     if (!res.status) {
       errorHandler(res.data);
       return false;

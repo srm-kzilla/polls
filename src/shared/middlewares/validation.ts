@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
-import errorClass from '../error';
+import CustomError from '../error';
 
 type RequestLocation = 'query' | 'body' | 'params';
 
@@ -22,7 +22,7 @@ export function validateRequest(location: RequestLocation, schema: yup.AnyObject
       req.body = data;
       next();
     } catch (err) {
-      next(new errorClass('Validation Failure', 400));
+      next(new CustomError('Validation Failure', 400));
     }
   };
 }

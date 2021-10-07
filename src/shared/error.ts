@@ -1,4 +1,4 @@
-class errorClass extends Error {
+class CustomError extends Error {
   statusCode: number;
   constructor(message: string, statusCode: number) {
     super(message);
@@ -6,4 +6,4 @@ class errorClass extends Error {
   }
 }
 
-export default errorClass;
+export default CustomError;
