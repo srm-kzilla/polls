@@ -4,6 +4,7 @@ import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
 import { SOCKET_EVENTS, URLS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
+import Nav from '../../components/Navbar';
 
 let socket: Socket;
 
@@ -34,6 +35,7 @@ const UserPage = () => {
 
   const handelVote = (event: any) => {
     var optionID: string = event.currentTarget.name;
+    console.log(event.target);
     if (localStorage.getItem(id)) {
       errorHandler('YOu Have Already Voted');
     } else {
@@ -43,19 +45,28 @@ const UserPage = () => {
   };
 
   return (
-    <div>
-      {error.length > 0 && <p>{error}</p>}
-      <h1>{question}</h1>
-      <div>
-        {options.length > 0 &&
-          options.map((option: Option) => (
-            <div key={option.id}>
-              <p>{option.value}</p>
-              <button type="button" name={option.id} onClick={e => handelVote(e)}>
-                Vote
-              </button>
-            </div>
-          ))}
+    <div className="w-screen">
+      <Nav></Nav>
+      <div className="flex justify-center items-center">
+        <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 items-center">
+          {error.length > 0 && <p>{error}</p>}
+          <h1 className="block text-blue-400  text-2xl sm:text-3xl mt-5">{question}</h1>
+          <div className="w-full px-2 md:w-full sm:w-4/5 mt-5">
+            {options.length > 0 &&
+              options.map((option: Option) => (
+                <div key={option.id} className="mb-3">
+                  <button
+                    type="button"
+                    className="w-full break-all bg-gray-100 text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                    name={option.id}
+                    onClick={e => handelVote(e)}
+                  >
+                    {option.value}
+                  </button>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );
