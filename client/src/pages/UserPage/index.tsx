@@ -5,6 +5,10 @@ import { PollData, Option } from '../../utils/interfaces';
 import { SOCKET_EVENTS, URLS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
 import Nav from '../../components/Navbar';
+import Footer from '../../components/footer';
+import { HiOutlineStar, HiStar } from 'react-icons/hi';
+import { FiStar } from 'react-icons/fi';
+import { BsStarFill } from 'react-icons/bs';
 
 let socket: Socket;
 
@@ -16,10 +20,14 @@ const UserPage = () => {
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
   const [error, setError] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<any>('');
 
   useEffect(() => {
     socket = io(URLS.BASE_URL);
     socket.emit(SOCKET_EVENTS.GET_DATA, { userId: id });
+    if (localStorage.getItem(id)) {
+      setSelectedOption(localStorage.getItem(id));
+    }
   }, [id]);
 
   useEffect(() => {
@@ -39,35 +47,50 @@ const UserPage = () => {
     if (localStorage.getItem(id)) {
       errorHandler('YOu Have Already Voted');
     } else {
-      localStorage.setItem(id, 'voted');
+      setSelectedOption(optionID);
+      localStorage.setItem(id, optionID);
       socket.emit(SOCKET_EVENTS.VOTE, { userId: id, id: optionID });
     }
   };
 
   return (
     <div className="w-screen">
-      <Nav></Nav>
-      <div className="flex justify-center items-center">
-        <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 items-center">
+      <Nav check={true} />
+      <div className="flex justify-center items-center z-40">
+        <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 items-center z-40">
           {error.length > 0 && <p>{error}</p>}
-          <h1 className="block text-blue-400  text-2xl sm:text-3xl mt-5">{question}</h1>
-          <div className="w-full px-2 md:w-full sm:w-4/5 mt-5">
+          <h1 className="block text-custom-blue-dark text-2xl sm:text-3xl mt-5">{question}</h1>
+          <p className="text-gray-400 text-sm sm:text-base">Please select the most appropriate answer</p>
+          <div className="w-full px-2 md:w-full sm:w-4/5 mt-10">
             {options.length > 0 &&
               options.map((option: Option) => (
-                <div key={option.id} className="mb-3">
-                  <button
-                    type="button"
-                    className="w-full break-all bg-gray-100 text-left px-2 py-3 pl-5 sm:text-xl rounded"
-                    name={option.id}
-                    onClick={e => handelVote(e)}
-                  >
-                    {option.value}
-                  </button>
+                <div key={option.id} className="mb-3 z-40">
+                  {selectedOption === option.id ? (
+                    <button
+                      type="button"
+                      className="w-full break-all bg-green-50 text-green-400 border-solid border-2 border-green-400 text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                      name={option.id}
+                      onClick={e => handelVote(e)}
+                    >
+                      <BsStarFill className="color-gray-300 inline mr-1" /> {option.value}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className="w-full break-all text-custom-blue-lightest bg-gray-100 text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                      name={option.id}
+                      onClick={e => handelVote(e)}
+                    >
+                      <FiStar className="text-gray-500 inline mr-3" />
+                      {option.value}
+                    </button>
+                  )}
                 </div>
               ))}
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

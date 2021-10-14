@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { History } from 'history';
-import { handelData } from '../../utils/api';
+import { errorHandler, handelData } from '../../utils/api';
 import { nanoid } from 'nanoid';
 import { Option } from '../../utils/interfaces';
-import { ReactComponent as Logo } from '../../assets/svg/logo.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import Nav from '../../components/Navbar';
+import Footer from '../../components/footer';
+import { ImCross } from 'react-icons/im';
+import { AiFillPlusSquare } from 'react-icons/ai';
 
 interface Props {
   history: History;
@@ -15,7 +15,7 @@ interface Props {
 const HomePage = ({ history }: Props) => {
   const [question, setQuestion] = useState<string>('');
   const [options, setOption] = useState<Option[]>([]);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
 
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
@@ -36,24 +36,30 @@ const HomePage = ({ history }: Props) => {
   };
 
   const validation = () => {
-    if (question.length == 0) setError('Enter Valid Question');
-    else if (options.length < 2 || options.length > 6) setError('Mi 2 and Max 6 options are Required');
-    else {
+    if (question.length == 0) {
+      setError(true);
+      errorHandler('Enter Valid Question');
+    } else if (options.length < 2 || options.length > 6) {
+      setError(true);
+      errorHandler('Min 2 Option are req');
+    } else {
       var check = false;
       options.map((data: Option) => {
         if (data.value.length == 0) check = true;
       });
-      if (check) setError('Enter Valid Options');
+      if (check) {
+        setError(true);
+        errorHandler('Enter valid options');
+      }
     }
     return;
   };
 
   const handelSubmit = async (event: any) => {
     event.preventDefault();
-    setError('');
+    setError(false);
     validation();
-
-    if (error.length === 0) {
+    if (!error) {
       const adminId = nanoid();
       const userId = nanoid();
       const res = await handelData({ question, options, adminId: adminId, userId: userId });
@@ -67,24 +73,23 @@ const HomePage = ({ history }: Props) => {
 
   return (
     <div className="w-screen">
-      <Nav></Nav>
-      <div className="flex justify-center items-center">
+      <Nav check={true} />
+      <div className="flex justify-center items-center z-40">
         <form
-          className="w-11/12 sm:10/12 md:w-3/5 sm:h-4/5 flex-row justify-center items-center mt-20"
+          className="w-11/12 sm:10/12 md:w-3/5 sm:h-4/5 flex-row justify-center items-center mt-20 z-40"
           onSubmit={handelSubmit}
         >
-          {error.length > 0 && <p>{error}</p>}
           <input
             value={question}
             type="text"
             placeholder="Click here to start typing your question"
             onChange={e => setQuestion(e.target.value)}
-            className="w-full text-center xl sm:text-2xl px-2 py-3 rounded bg-blue-50 text-blue-800"
+            className="w-full text-center text-base mb-5 sm:text-2xl px-2 py-3 rounded-xl bg-custom-blue-back1 text-custom-blue-dark outline-none placeholder-custom-blue-dark"
           ></input>
 
-          <div className="mt-5 flex-row w-full text-center relative">
+          <div className="mt-5 flex-row text-center justify-center w-full">
             {options.map((option: Option) => (
-              <div className="">
+              <div className="w-full">
                 <input
                   type="text"
                   placeholder="Enter Your Option"
@@ -92,24 +97,29 @@ const HomePage = ({ history }: Props) => {
                   name={option.id}
                   key={option.id}
                   onChange={handelOptions}
-                  className="w-4/5 mb-3 px-1 py-2 rounded"
+                  className="mb-3 pl-5 py-2 w-4/5 sm:text-xl rounded z-40  bg-custom-white-back2 outline-none text-custom-blue-lightest placeholder-custom-blue-lightest"
                 ></input>
                 <button type="button" name={option.id} onClick={handelDelete}>
-                  <FontAwesomeIcon className="ml-2 text-red-500 text-xl" icon={faTimes} />
+                  <ImCross className="ml-2 inline text-custom-red-dark text-sm" />
                 </button>
               </div>
             ))}
-            <button type="button" className="text-red-500" onClick={handelAddOption}>
-              <FontAwesomeIcon className="ml-2 text-red-500 mr-2" icon={faPlusSquare} />
+            <button type="button" className="text-custom-red-dark" onClick={handelAddOption}>
+              <AiFillPlusSquare className="inline ml-2 text-red-500 mr-2 z-40" />
               Add Option
             </button>
             <div></div>
-            <button type="submit" className="mt-10 bg-blue-500 rounded px-4 py-2" onSubmit={handelSubmit}>
+            <button
+              type="submit"
+              className="mt-10 bg-custom-blue-light text-white sm:text-xl rounded-xl px-6 py-2 z-40"
+              onSubmit={handelSubmit}
+            >
               Create Poll
             </button>
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

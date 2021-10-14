@@ -7,13 +7,13 @@ import UserPage from './pages/UserPage';
 import { ToastContainer } from 'react-toastify';
 import Nav from './components/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
-import MainPage from './pages/MainPage';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/" component={MainPage} />
+        <Route exact path="/" component={LandingPage} />
         <Route exact path="/polls" component={HomePage} />
         <Route exact path="/admin/:id" component={AdminPage} />
         <Route exact path="/user/:id" component={UserPage} />
