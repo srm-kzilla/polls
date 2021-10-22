@@ -26,3 +26,7 @@ export const handelData = async (payload: PollData): Promise<boolean> => {
 export const errorHandler = (msg: string) => {
   toast.error(msg);
 };
+
+export const successHandler = (msg: string) => {
+  toast.success(msg);
+};
