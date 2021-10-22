@@ -52,19 +52,29 @@ const AdminPage = () => {
     <div className="w-screen">
       <Nav check={true} />
       <div className="flex justify-center texts-center w-full z-40">
-        <div className="flex flex-col items-center justify-center text-center w:full sm:w-3/5">
-          <h1 className="text-2xl sm:text-3xl mt-5 mb-5 text-custom-blue-dark">{question}</h1>
-          <div className="w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40">
+        <div className="flex flex-col mt-8 items-center justify-center text-center w-full px-3 sm:w-3/5">
+          <h1 className="block text-2xl sm:text-3xl font-medium mb-5 text-custom-blue-dark question">{question}</h1>
+          <div
+            className={
+              options.length <= 4
+                ? 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40'
+                : 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40 flex flex-wrap'
+            }
+          >
             {options?.length > 0 &&
               options.map(option => (
                 <div
-                  className="flex relative justify-between mb-3 w-full break-all bg-custom-white-back2 rounded-xl text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                  className={
+                    options.length <= 4
+                      ? 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium w-full break-all bg-gray-100 rounded-xl  sm:text-xl'
+                      : 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium w-1/2 break-all bg-gray-100 rounded-xl  sm:text-xl'
+                  }
                   key={option.id}
                 >
                   <p className="ml-3 text-xl text-custom-blue-lightest">{option.value}</p>
-                  <div className="relative w-1/5 text-center p-0 h-full">
-                    <img className="absolute md:left-3 sm:left-0 sm:right-3 lg:left-10 top-0 w-12" src={circle} />
-                    <p className="mr-3 relative text-gray-600 text-base">{option.count}</p>
+                  <div className="flex justify-center text-center items-center  h-4/5 relative">
+                    <img src={circle} />
+                    <p className=" text-gray-600 text-base absolute">{option.count}</p>
                   </div>
                   <img className="absolute left-0 top-0 w-3/5 h-full" src={vector} />
                 </div>

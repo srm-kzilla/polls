@@ -9,6 +9,7 @@ module.exports = {
         'custom-red-dark': '#FF5F5F',
         'custom-blue-dark': '#192F7D',
         'custom-blue-light': '#23BCFE',
+        'custom-blue-ques': '#EBF1FF',
         'custom-blue-lightest': '#192F7D',
         'custom-blue-back1': '#EFF1F6',
         'custom-white-back2': '#F8F8F8',
