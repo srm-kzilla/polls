@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Poppins:wght@100;200;300;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
+}
+
+p,
+h1 {
+  font-family: 'Poppins', sans-serif;
+}
+.question {
+  font-family: 'Lora', serif;
+}
+.triangle {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-right: 5px solid red;
+  border-bottom: 5px solid transparent;
 }

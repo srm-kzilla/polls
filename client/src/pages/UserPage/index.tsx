@@ -57,31 +57,40 @@ const UserPage = () => {
     <div className="w-screen">
       <Nav check={true} />
       <div className="flex justify-center items-center z-40">
-        <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 items-center z-40">
+        <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 mt-8 items-center z-40">
           {error.length > 0 && <p>{error}</p>}
-          <h1 className="block text-custom-blue-dark text-2xl sm:text-3xl mt-5">{question}</h1>
+          <h1 className="block text-custom-blue-dark font-medium text-2xl sm:text-3xl  question">{question}</h1>
           <p className="text-gray-400 text-sm sm:text-base">Please select the most appropriate answer</p>
-          <div className="w-full px-2 md:w-full sm:w-4/5 mt-10">
+          <div
+            className={
+              options.length <= 4
+                ? 'w-full px-2 md:w-full sm:w-4/5 mt-10 flex-row'
+                : 'w-full px-2 md:w-full sm:w-4/5 mt-10 flex-row lg:flex lg:flex-wrap'
+            }
+          >
             {options.length > 0 &&
               options.map((option: Option) => (
-                <div key={option.id} className="mb-3 z-40">
+                <div key={option.id} className={options.length <= 4 ? 'mb-3 z-40' : 'mb-3 z-40 lg:w-1/2'}>
                   {selectedOption === option.id ? (
                     <button
                       type="button"
-                      className="w-full break-all bg-green-50 text-green-400 border-solid border-2 border-green-400 text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                      className="w-full break-all  flex items-center  bg-green-50 text-green-400 border-solid border-1 border-green-400 text-left px-6 py-4  sm:text-xl rounded-xl"
                       name={option.id}
                       onClick={e => handelVote(e)}
                     >
-                      <BsStarFill className="color-gray-300 inline mr-1" /> {option.value}
+                      <div className="border-solid border-2 mr-3 border-green-400 w-4 h-4"></div>
+                      {/* <BsStarFill className="color-gray-300 inline mr-1" />  */}
+                      {option.value}
                     </button>
                   ) : (
                     <button
                       type="button"
-                      className="w-full break-all text-custom-blue-lightest bg-gray-100 text-left px-2 py-3 pl-5 sm:text-xl rounded"
+                      className="w-full flex items-center text-center break-all text-custom-blue-lightest bg-gray-100 px-6 py-4  sm:text-xl rounded-xl"
                       name={option.id}
                       onClick={e => handelVote(e)}
                     >
-                      <FiStar className="text-gray-500 inline mr-3" />
+                      <div className="border-solid border-2 mr-3 border-gray-500 w-4 h-4"></div>
+                      {/* <FiStar className="text-gray-500 inline mr-3" /> */}
                       {option.value}
                     </button>
                   )}
