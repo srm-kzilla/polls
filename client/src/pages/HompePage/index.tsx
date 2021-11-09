@@ -72,11 +72,11 @@ const HomePage = ({ history }: Props) => {
   };
 
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen">
       <Nav check={true} />
-      <div className="flex justify-center items-center z-40">
+      <div className="flex justify-center items-center z-40 h-5/6 ">
         <form
-          className="w-11/12 sm:10/12 md:w-3/5  relative sm:h-4/5 flex-row justify-center text-center items-center mt-8 z-40"
+          className="w-11/12 sm:10/12 md:w-3/5 mb-28 relative sm:h-4/5 flex-row justify-center text-center items-center  z-40"
           onSubmit={handelSubmit}
         >
           <input
@@ -90,7 +90,7 @@ const HomePage = ({ history }: Props) => {
           <div
             className={
               options.length <= 3
-                ? 'mt-3 flex-row text-center justify-center w-full'
+                ? 'mt-3 flex-row text-center justify-center w-full '
                 : 'mt-3 flex-row lg:flex lg:flex-wrap text-center justify-center items-end w-full '
             }
           >
@@ -98,8 +98,8 @@ const HomePage = ({ history }: Props) => {
               <div
                 className={
                   options.length <= 3
-                    ? 'w-full mt-5 flex text-center items-center justify-center'
-                    : 'w-full lg:w-1/2  mt-5 flex text-center items-center justify-center '
+                    ? 'w-full mt-5 flex text-center justify-center items-center'
+                    : 'w-full lg:w-1/2 mt-5'
                 }
               >
                 <input
@@ -111,7 +111,7 @@ const HomePage = ({ history }: Props) => {
                   onChange={handelOptions}
                   className={
                     options.length <= 3
-                      ? 'px-6 py-4 w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
+                      ? 'px-6 py-4 w-11/12 sm:w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
                       : 'px-6 py-4 w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
                   }
                 ></input>

@@ -23,3 +23,25 @@ h1 {
   border-right: 5px solid red;
   border-bottom: 5px solid transparent;
 }
+
+.greenBar {
+  height: 80vh !important;
+}
+.redBar {
+  height: 65vh;
+}
+.blueBar {
+  height: 50vh;
+}
+
+@media only screen and (max-width: 768px) {
+  .greenBar {
+    height: 6h0vh !important;
+  }
+  .redBar {
+    height: 50vh;
+  }
+  .blueBar {
+    height: 40vh;
+  }
+}

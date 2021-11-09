@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         'custom-yellow-light': '#FFE294',
         'custom-yellow-dark': '#C69615',
+        'custom-yellow-hover': '#FFD871',
         'custom-red-dark': '#FF5F5F',
         'custom-blue-dark': '#192F7D',
         'custom-blue-light': '#23BCFE',
