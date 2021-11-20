@@ -124,7 +124,6 @@ const UserPage = () => {
                           />
                         </svg>
                       </motion.div>
-
                       {option.value}
                     </button>
                   ) : (

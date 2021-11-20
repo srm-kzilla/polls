@@ -5,6 +5,7 @@ import { ReactComponent as Forms } from '../../assets/svg/Group_112.svg';
 import { ReactComponent as Arrows } from '../../assets/svg/Arrow_09.svg';
 import { ReactComponent as Marks } from '../../assets/svg/Group_113.svg';
 import { ReactComponent as Dash } from '../../assets/svg/Highlight_04.svg';
+
 import Arrow from '../../assets/img/Arrow_09.png';
 import Nav from '../../components/Navbar';
 import Underline from '../../components/AnimatedSvg/underline';
@@ -116,7 +117,6 @@ const LandingPage = () => {
               polls
             </h1>
           </div>
-
           <div className="w-full hidden lg:flex flex-col-reverse mt-10 lg:flex-row lg:mt-0 justify-around items-center">
             {/* <Arrows className="w-36 mr-24"></Arrows> */}
             <motion.svg
@@ -150,7 +150,6 @@ const LandingPage = () => {
                 </clipPath>
               </defs>
             </motion.svg>
-
             <Forms className="w-full px-5 sm:w-96 sm:px-0" />
           </div>
         </div>

@@ -148,6 +148,7 @@ const HomePage = ({ history }: Props) => {
             disabled={loading}
           >
             {loading ? <BiLoaderCircle>Loading</BiLoaderCircle> : 'Create Poll'}
+
           </button>
         </form>
       </div>
