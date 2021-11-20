@@ -18,15 +18,14 @@ export const handelData = async (payload: PollData): Promise<boolean> => {
       return true;
     }
   } catch (error) {
-    errorHandler('Something Wrong');
     return false;
   }
 };
 
 export const errorHandler = (msg: string) => {
-  toast.error(msg);
+  toast.error(msg, { pauseOnHover: false });
 };
 
 export const successHandler = (msg: string) => {
-  toast.success(msg);
+  toast.success(msg, { pauseOnHover: false });
 };

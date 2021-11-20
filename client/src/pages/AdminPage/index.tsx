@@ -29,12 +29,18 @@ const AdminPage = () => {
     socket.emit(SOCKET_EVENTS.GET_DATA, { adminId: id });
   }, [id]);
 
+  const compareFunc = (option1: Option, option2: Option) => {
+    if (option1.count < option2.count) return -1;
+    if (option1.count > option2.count) return 1;
+    return 0;
+  };
+
   const pollDataHandler = (pollData: PollData) => {
-    console.log(pollData);
     setQuestions(pollData.question);
     setOptions(pollData.options);
     setUserId(pollData.userId);
     setUserLink(`${URLS.USER_URL}${pollData.userId}`);
+    options.sort(compareFunc);
   };
 
   useEffect(() => {
@@ -58,7 +64,7 @@ const AdminPage = () => {
             className={
               options.length <= 4
                 ? 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40'
-                : 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40 flex flex-wrap'
+                : ' w-full sm:w-4/5 md:w-full sm:text-left mt-5 text-xl z-40 lg:flex lg:flex-wrap justify-center items-center'
             }
           >
             {options?.length > 0 &&
@@ -67,7 +73,7 @@ const AdminPage = () => {
                   className={
                     options.length <= 4
                       ? 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium w-full break-all bg-gray-100 rounded-xl  sm:text-xl'
-                      : 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium w-1/2 break-all bg-gray-100 rounded-xl  sm:text-xl'
+                      : 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium lg:w-5/12 lg:ml-3 break-all bg-gray-100 rounded-xl  sm:text-xl'
                   }
                   key={option.id}
                 >

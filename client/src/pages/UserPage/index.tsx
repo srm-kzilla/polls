@@ -9,6 +9,30 @@ import Footer from '../../components/footer';
 import { HiOutlineStar, HiStar } from 'react-icons/hi';
 import { FiStar } from 'react-icons/fi';
 import { BsStarFill } from 'react-icons/bs';
+import { ReactComponent as tickMark } from '../../assets/svg/checkMark.svg';
+import { motion } from 'framer-motion';
+
+const pathVariants = {
+  hidden: {
+    opacity: 0,
+    pathLength: 1,
+  },
+  visible: {
+    opacity: 1,
+    pathLength: 0,
+    transition: {
+      duration: 2,
+      delay: 1,
+    },
+  },
+};
+const svgVariants = {
+  hidden: { rotate: -180 },
+  visible: {
+    rotate: 0,
+    transition: { duration: 1 },
+  },
+};
 
 let socket: Socket;
 
@@ -21,12 +45,14 @@ const UserPage = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [error, setError] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<any>('');
+  const [selected, setSelected] = useState<boolean>(false);
 
   useEffect(() => {
     socket = io(URLS.BASE_URL);
     socket.emit(SOCKET_EVENTS.GET_DATA, { userId: id });
     if (localStorage.getItem(id)) {
       setSelectedOption(localStorage.getItem(id));
+      setSelected(true);
     }
   }, [id]);
 
@@ -45,10 +71,11 @@ const UserPage = () => {
     var optionID: string = event.currentTarget.name;
     console.log(event.target);
     if (localStorage.getItem(id)) {
-      errorHandler('YOu Have Already Voted');
+      errorHandler('You Have Already Voted');
     } else {
       setSelectedOption(optionID);
       localStorage.setItem(id, optionID);
+      setSelected(true);
       socket.emit(SOCKET_EVENTS.VOTE, { userId: id, id: optionID });
     }
   };
@@ -65,12 +92,12 @@ const UserPage = () => {
             className={
               options.length <= 4
                 ? 'w-full px-2 md:w-full sm:w-4/5 mt-10 flex-row'
-                : 'w-full px-2 md:w-full sm:w-4/5 mt-10 flex-row lg:flex lg:flex-wrap'
+                : 'w-full px-2 md:w-full sm:w-4/5 mt-10 flex-row lg:flex lg:flex-wrap items-center justify-center'
             }
           >
             {options.length > 0 &&
               options.map((option: Option) => (
-                <div key={option.id} className={options.length <= 4 ? 'mb-3 z-40' : 'mb-3 z-40 lg:w-1/2'}>
+                <div key={option.id} className={options.length <= 4 ? 'mb-3 z-40' : 'mb-3 lg:ml-3 z-40 lg:w-5/12'}>
                   {selectedOption === option.id ? (
                     <button
                       type="button"
@@ -78,16 +105,39 @@ const UserPage = () => {
                       name={option.id}
                       onClick={e => handelVote(e)}
                     >
-                      <div className="border-solid border-2 mr-3 border-green-400 w-4 h-4"></div>
-                      {/* <BsStarFill className="color-gray-300 inline mr-1" />  */}
+                      <motion.div
+                        variants={svgVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="border-solid border-2 mr-3 border-green-400 w-4 h-4"
+                      >
+                        <svg
+                          className="text-teal-500 fill-current"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                        >
+                          <motion.path
+                            variants={pathVariants}
+                            d="M0 11.386l1.17-1.206c1.951.522 5.313 1.731 8.33 3.597 3.175-4.177 9.582-9.398 13.456-11.777l1.044 1.073-14 18.927-10-10.614z"
+                          />
+                        </svg>
+                      </motion.div>
+
                       {option.value}
                     </button>
                   ) : (
                     <button
                       type="button"
-                      className="w-full flex items-center text-center break-all text-custom-blue-lightest bg-gray-100 px-6 py-4  sm:text-xl rounded-xl"
+                      className={
+                        !selected
+                          ? 'w-full flex items-center text-center break-all text-custom-blue-lightest bg-gray-100 px-6 py-4  sm:text-xl rounded-xl'
+                          : 'w-full opacity-70 flex items-center text-center break-all text-custom-blue-lightest bg-gray-100 px-6 py-4  sm:text-xl rounded-xl'
+                      }
                       name={option.id}
                       onClick={e => handelVote(e)}
+                      disabled={selected}
                     >
                       <div className="border-solid border-2 mr-3 border-gray-500 w-4 h-4"></div>
                       {/* <FiStar className="text-gray-500 inline mr-3" /> */}
