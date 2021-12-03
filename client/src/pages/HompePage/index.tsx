@@ -7,6 +7,7 @@ import Nav from '../../components/Navbar';
 import Footer from '../../components/footer';
 import { FiX } from 'react-icons/fi';
 import { AiFillPlusSquare } from 'react-icons/ai';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 interface Props {
   history: History;
@@ -16,6 +17,7 @@ const HomePage = ({ history }: Props) => {
   const [question, setQuestion] = useState<string>('');
   const [options, setOption] = useState<Option[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
@@ -35,48 +37,58 @@ const HomePage = ({ history }: Props) => {
     setOption(temp);
   };
 
-  const validation = () => {
+  const validation = (): boolean => {
+    let status: boolean = false;
     if (question.length == 0) {
-      setError(true);
       errorHandler('Enter Valid Question');
+      status = true;
     } else if (options.length < 2 || options.length > 6) {
-      setError(true);
       errorHandler('Min 2 Option are req');
+      status = true;
     } else {
       var check = false;
       options.map((data: Option) => {
         if (data.value.length == 0) check = true;
       });
       if (check) {
-        setError(true);
+        status = true;
         errorHandler('Enter valid options');
       }
     }
-    return;
+    return status;
   };
 
   const handelSubmit = async (event: any) => {
     event.preventDefault();
     setError(false);
-    validation();
-    if (!error) {
+    const check: boolean = validation();
+    if (!check) {
+      setLoading(true);
       const adminId = nanoid();
       const userId = nanoid();
       const res = await handelData({ question, options, adminId: adminId, userId: userId });
       if (res) history.push(`/admin/${adminId}`);
+      else {
+        errorHandler('Something is Wrong.');
+        setLoading(false);
+      }
     }
   };
 
   const handelAddOption = () => {
-    setOption([...options, { count: 0, value: '', id: nanoid(5) }]);
+    if (options.length == 5) {
+      errorHandler('Maximum 5 options are Allowed.');
+    } else {
+      setOption([...options, { count: 0, value: '', id: nanoid(5) }]);
+    }
   };
 
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen">
       <Nav check={true} />
-      <div className="flex justify-center items-center z-40">
+      <div className="flex justify-center items-center z-40 md:h-5/6">
         <form
-          className="w-11/12 sm:10/12 md:w-3/5  relative sm:h-4/5 flex-row justify-center text-center items-center mt-8 z-40"
+          className="w-11/12 sm:w-10/12 md:w-3/5 mb-28 relative  flex-row justify-center text-center items-center  z-40"
           onSubmit={handelSubmit}
         >
           <input
@@ -90,16 +102,16 @@ const HomePage = ({ history }: Props) => {
           <div
             className={
               options.length <= 3
-                ? 'mt-3 flex-row text-center justify-center w-full'
-                : 'mt-3 flex-row lg:flex lg:flex-wrap text-center justify-center items-end w-full '
+                ? 'mt-3 flex-row text-center justify-center w-full '
+                : 'mt-3 lg:flex-row lg:flex lg:flex-wrap text-center justify-center items-end w-full '
             }
           >
             {options.map((option: Option) => (
               <div
                 className={
                   options.length <= 3
-                    ? 'w-full mt-5 flex text-center items-center justify-center'
-                    : 'w-full lg:w-1/2  mt-5 flex text-center items-center justify-center '
+                    ? 'w-full mt-5 flex text-center justify-center items-center'
+                    : 'w-full lg:w-1/2 mt-5'
                 }
               >
                 <input
@@ -111,8 +123,8 @@ const HomePage = ({ history }: Props) => {
                   onChange={handelOptions}
                   className={
                     options.length <= 3
-                      ? 'px-6 py-4 w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
-                      : 'px-6 py-4 w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
+                      ? 'px-6 py-4 w-11/12 sm:w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
+                      : 'px-6 py-4 w-10/12 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
                   }
                 ></input>
                 <button type="button" name={option.id} onClick={handelDelete}>
@@ -133,8 +145,10 @@ const HomePage = ({ history }: Props) => {
             type="submit"
             className="mt-20 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
             onSubmit={handelSubmit}
+            disabled={loading}
           >
-            Create Poll
+            {loading ? <BiLoaderCircle>Loading</BiLoaderCircle> : 'Create Poll'}
+
           </button>
         </form>
       </div>
