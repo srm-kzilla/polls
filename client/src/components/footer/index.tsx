@@ -2,6 +2,7 @@ import Black from '../../assets/svg/Black.svg';
 import Group from '../../assets/img/Group_110.png';
 import { useHistory } from 'react-router';
 
+
 const Footer = () => {
   const history = useHistory();
   return (
@@ -12,6 +13,7 @@ const Footer = () => {
         onClick={() => window.open('https://srmkzilla.net/')}
         className="mr-4 w-6 pb-3 cursor-pointer"
       ></img>
+
     </footer>
   );
 };

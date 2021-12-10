@@ -58,7 +58,9 @@ const AdminPage = () => {
             className={
               options.length <= 4
                 ? 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40'
+
                 : ' w-full sm:w-4/5 md:w-full sm:text-left mt-5 text-xl z-40 lg:flex lg:flex-wrap justify-center items-center'
+
             }
           >
             {options?.length > 0 &&
