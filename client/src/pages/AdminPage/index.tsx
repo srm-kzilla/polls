@@ -7,7 +7,6 @@ import { errorHandler } from '../../utils/api';
 import Nav from '../../components/Navbar';
 import vector from '../../assets/img/Vector.png';
 import circle from '../../assets/img/Highlight_07.png';
-import { url } from 'inspector';
 import { IoMdCopy } from 'react-icons/io';
 import { successHandler } from '../../utils/api';
 import Footer from '../../components/footer';
@@ -29,18 +28,11 @@ const AdminPage = () => {
     socket.emit(SOCKET_EVENTS.GET_DATA, { adminId: id });
   }, [id]);
 
-  const compareFunc = (option1: Option, option2: Option) => {
-    if (option1.count < option2.count) return -1;
-    if (option1.count > option2.count) return 1;
-    return 0;
-  };
-
   const pollDataHandler = (pollData: PollData) => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
     setUserId(pollData.userId);
     setUserLink(`${URLS.USER_URL}${pollData.userId}`);
-    options.sort(compareFunc);
   };
 
   useEffect(() => {
@@ -59,7 +51,9 @@ const AdminPage = () => {
       <Nav check={true} />
       <div className="flex justify-center texts-center w-full z-40">
         <div className="flex flex-col mt-8 items-center justify-center text-center w-full px-3 sm:w-3/5">
-          <h1 className="block text-2xl sm:text-3xl font-medium mb-5 text-custom-blue-dark question">{question}</h1>
+          <h1 className="block break-all text-2xl sm:text-3xl font-medium mb-5 text-custom-blue-dark question">
+            {question}
+          </h1>
           <div
             className={
               options.length <= 4
