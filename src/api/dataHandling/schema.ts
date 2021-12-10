@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { string } from 'yup/lib/locale';
 
 const OptionSchema = yup.object().shape({
   value: yup.string().required(),

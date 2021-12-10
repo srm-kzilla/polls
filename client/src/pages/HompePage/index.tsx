@@ -40,10 +40,10 @@ const HomePage = ({ history }: Props) => {
   const validation = (): boolean => {
     let status: boolean = false;
     if (question.length == 0) {
-      errorHandler('Enter Valid Question');
+      errorHandler('Enter Valid Question.');
       status = true;
     } else if (options.length < 2 || options.length > 6) {
-      errorHandler('Min 2 Option are req');
+      errorHandler('Minimum 2 options are required.');
       status = true;
     } else {
       var check = false;
@@ -52,7 +52,7 @@ const HomePage = ({ history }: Props) => {
       });
       if (check) {
         status = true;
-        errorHandler('Enter valid options');
+        errorHandler('Enter valid options.');
       }
     }
     return status;
@@ -96,7 +96,7 @@ const HomePage = ({ history }: Props) => {
             type="text"
             placeholder="Click here to start typing your question"
             onChange={e => setQuestion(e.target.value)}
-            className="w-full text-center text-base mb-5 sm:text-2xl px-2 py-5 rounded-xl font-medium bg-custom-blue-ques text-custom-blue-dark outline-none placeholder-custom-blue-dark question"
+            className="w-full break-all text-center text-base mb-5 sm:text-2xl px-2 py-5 rounded-xl font-medium bg-custom-blue-ques text-custom-blue-dark outline-none placeholder-custom-blue-dark question"
           ></input>
 
           <div

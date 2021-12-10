@@ -71,7 +71,7 @@ const UserPage = () => {
     var optionID: string = event.currentTarget.name;
     console.log(event.target);
     if (localStorage.getItem(id)) {
-      errorHandler('You Have Already Voted');
+      errorHandler('You have already voted.');
     } else {
       setSelectedOption(optionID);
       localStorage.setItem(id, optionID);
@@ -86,7 +86,9 @@ const UserPage = () => {
       <div className="flex justify-center items-center z-40">
         <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 mt-8 items-center z-40">
           {error.length > 0 && <p>{error}</p>}
-          <h1 className="block text-custom-blue-dark font-medium text-2xl sm:text-3xl  question">{question}</h1>
+          <h1 className="block break-all text-custom-blue-dark font-medium text-2xl sm:text-3xl  question">
+            {question}
+          </h1>
           <p className="text-gray-400 text-sm sm:text-base">Please select the most appropriate answer</p>
           <div
             className={
@@ -140,7 +142,6 @@ const UserPage = () => {
                       disabled={selected}
                     >
                       <div className="border-solid border-2 mr-3 border-gray-500 w-4 h-4"></div>
-                      {/* <FiStar className="text-gray-500 inline mr-3" /> */}
                       {option.value}
                     </button>
                   )}

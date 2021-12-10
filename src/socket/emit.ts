@@ -7,7 +7,7 @@ export const errorHandler = (io: any, socket: Socket, data: any) => {
 
 export const sendData = (io: any, socket: Socket, data: any) => {
   try {
-    console.log('sending data');
+    sortData(data);
     io.to(socket.id).emit(socketEvents.DATA, data);
   } catch (error) {
     console.log(error);
@@ -16,8 +16,17 @@ export const sendData = (io: any, socket: Socket, data: any) => {
 
 export const sendUpdatedVote = (io: any, data: any) => {
   try {
+    sortData(data);
     io.emit(socketEvents.UPDATE, data);
   } catch (error) {
     console.log(error);
   }
+};
+
+const sortData = data => {
+  data.options.sort((a, b) => {
+    if (a.count < b.count) return 1;
+    else if (a.count > b.count) return -1;
+    return 0;
+  });
 };
