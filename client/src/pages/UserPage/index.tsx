@@ -4,6 +4,7 @@ import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
 import { SOCKET_EVENTS, URLS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
+import { History } from 'history';
 import Nav from '../../components/Navbar';
 import Footer from '../../components/footer';
 import { HiOutlineStar, HiStar } from 'react-icons/hi';
@@ -39,7 +40,10 @@ let socket: Socket;
 interface User {
   id: string;
 }
-const UserPage = () => {
+interface Props {
+  history: History;
+}
+const UserPage = ({ history }: Props) => {
   const { id } = useParams<User>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
@@ -58,12 +62,17 @@ const UserPage = () => {
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.DATA, (pollData: PollData) => {
-      console.log(pollData);
       setQuestions(pollData.question);
       setOptions([...pollData.options]);
     });
     socket.on(SOCKET_EVENTS.RESPONSE, error => {
-      errorHandler('There is some issue, please try again');
+      if (error.msg == "Poll doesn't exists or expired.") {
+        history.push('/error');
+        localStorage.removeItem(id);
+        setSelected(false);
+        setSelectedOption('');
+        errorHandler(error.msg);
+      } else errorHandler('There is some error');
     });
   });
 
@@ -81,7 +90,7 @@ const UserPage = () => {
   };
 
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen">
       <Nav check={true} />
       <div className="flex justify-center items-center z-40">
         <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 mt-8 items-center z-40">

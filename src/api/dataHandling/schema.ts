@@ -11,4 +11,6 @@ export const DataSchema = yup.object({
   options: yup.array().of(OptionSchema).required(),
   userId: yup.string().required(),
   adminId: yup.string().required(),
+  validTill: yup.number().default(1).required(),
+  createdAt: yup.date().default(new Date()).notRequired(),
 });

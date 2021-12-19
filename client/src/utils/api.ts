@@ -8,9 +8,9 @@ export const axiosReq: AxiosInstance = axios.create({
   baseURL: URLS.BASE_URL,
 });
 
-export const handelData = async (payload: PollData): Promise<boolean> => {
+export const handelData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
-    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, payload);
+    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, { ...payload, validTill });
     if (!res.status) {
       errorHandler(res.data);
       return false;

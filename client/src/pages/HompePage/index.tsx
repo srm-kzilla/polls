@@ -18,6 +18,7 @@ const HomePage = ({ history }: Props) => {
   const [options, setOption] = useState<Option[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [timer, setTimer] = useState<number>(1);
 
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
@@ -66,8 +67,16 @@ const HomePage = ({ history }: Props) => {
       setLoading(true);
       const adminId = nanoid();
       const userId = nanoid();
-      const res = await handelData({ question, options, adminId: adminId, userId: userId });
-      if (res) history.push(`/admin/${adminId}`);
+      const res = await handelData(
+        {
+          question,
+          options,
+          adminId: adminId,
+          userId: userId,
+        },
+        timer,
+      );
+      if (res) history.push(`/results/${adminId}`);
       else {
         errorHandler('Something is Wrong.');
         setLoading(false);
@@ -133,17 +142,33 @@ const HomePage = ({ history }: Props) => {
               </div>
             ))}
           </div>
-          <button
+          {/* <button
             type="button"
-            className="mt-5 flex items-center absolute left-1/2 transform -translate-x-1/2 justify-center font-medium text-custom-red-dark "
+            className="mt-5 flex items-center absolute left-3/4 transform -translate-x-1/2 justify-center font-medium text-custom-red-dark "
             onClick={handelAddOption}
           >
             <AiFillPlusSquare className="inline rounded-2xl text-2xl ml-2 text-red-500 mr-2 z-40" />
             <span>Add Option</span>
-          </button>
+          </button> */}
+          <div className="flex justify-between mt-5 items-center text-center">
+            <select
+              className="mt-5 font-medium text-custom-red-dark"
+              value={timer}
+              onChange={e => setTimer(Number(e.target.value))}
+            >
+              <option value="1">1 Hour</option>
+              <option value="8">8 Hours</option>
+              <option value="16">16 Hours</option>
+              <option value="24">24 Hours</option>
+            </select>
+            <button type="button" className="mt-5 font-medium text-custom-red-dark" onClick={handelAddOption}>
+              <AiFillPlusSquare className="inline rounded-2xl text-2xl ml-2 text-red-500 mr-2 z-40" />
+              <span>Add Option</span>
+            </button>
+          </div>
           <button
             type="submit"
-            className="mt-20 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
+            className="mt-5 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
             onSubmit={handelSubmit}
             disabled={loading}
           >
