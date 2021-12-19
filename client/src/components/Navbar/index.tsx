@@ -32,3 +32,4 @@ const Nav = ({ check }: Props) => {
 };
 
 export default Nav;
+
