@@ -22,6 +22,7 @@ const AdminPage = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [userId, setUserId] = useState<string>('');
   const [userLink, setUserLink] = useState<string>('');
+  const [width, setWidth] = useState<string[]>([]);
 
   useEffect(() => {
     socket = io(URLS.BASE_URL);
@@ -36,10 +37,28 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
+    var widthConst = ['w-4/5', 'w-3/4', 'w-2/3', 'w-3/5', 'w-1/2'];
+    var temp = ['w-4/5'];
+    var j = 1;
+    for (var i = 1; i < options.length; i++) {
+      if (options[i].count === options[i - 1].count) {
+        temp.push(temp[i - 1]);
+      } else {
+        temp.push(widthConst[j]);
+        j += 1;
+      }
+    }
+    console.log(temp);
+    setWidth(temp);
+  }, [options]);
+
+  useEffect(() => {
     socket.on(SOCKET_EVENTS.DATA, pollDataHandler);
     socket.on(SOCKET_EVENTS.UPDATE, pollDataHandler);
     socket.on(SOCKET_EVENTS.RESPONSE, error => {
-      errorHandler('There is some issue, please try again');
+      if (error.msg == "Poll doesn't exists or expired.") {
+        errorHandler('Polls time limit expired.No more vore updates.');
+      } else errorHandler('There is some issue, please try again');
     });
   });
   const handelCopyClipboard = () => {
@@ -47,7 +66,7 @@ const AdminPage = () => {
     successHandler('Successfully Copied to Clipboard!');
   };
   return (
-    <div className="w-screen">
+    <div className="w-screen h-screen">
       <Nav check={true} />
       <div className="flex justify-center texts-center w-full z-40">
         <div className="flex flex-col mt-8 items-center justify-center text-center w-full px-3 sm:w-3/5">
@@ -56,16 +75,16 @@ const AdminPage = () => {
           </h1>
           <div
             className={
-              options.length <= 4
+              options.length <= 3
                 ? 'w-full sm:w-4/5 md:w-full text-left mt-5 text-xl z-40'
                 : ' w-full sm:w-4/5 md:w-full sm:text-left mt-5 text-xl z-40 lg:flex lg:flex-wrap justify-center items-center'
             }
           >
             {options?.length > 0 &&
-              options.map(option => (
+              options.map((option, i) => (
                 <div
                   className={
-                    options.length <= 4
+                    options.length <= 3
                       ? 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium w-full break-all bg-gray-100 rounded-xl  sm:text-xl'
                       : 'flex text-center px-6 py-2 items-center relative justify-between mb-5 font-medium lg:w-5/12 lg:ml-3 break-all bg-gray-100 rounded-xl  sm:text-xl'
                   }
@@ -76,7 +95,7 @@ const AdminPage = () => {
                     <img src={circle} />
                     <p className=" text-gray-600 text-base absolute">{option.count}</p>
                   </div>
-                  <img className="absolute left-0 top-0 w-3/5 h-full" src={vector} />
+                  <img className={`absolute left-0 top-0 ${width[i]} h-full`} src={vector} />
                 </div>
               ))}
           </div>

@@ -8,15 +8,17 @@ import { ToastContainer } from 'react-toastify';
 import Nav from './components/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './pages/LandingPage';
+import Error from './pages/ErrorPage';
 
 function App() {
   return (
     <>
       <Switch>
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/polls" component={HomePage} />
-        <Route exact path="/admin/:id" component={AdminPage} />
+        <Route exact path="/new" component={HomePage} />
+        <Route exact path="/results/:id" component={AdminPage} />
         <Route exact path="/user/:id" component={UserPage} />
+        <Route exact path="/error" component={Error}></Route>
       </Switch>
       <ToastContainer> </ToastContainer>
     </>
