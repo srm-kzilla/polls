@@ -6,7 +6,6 @@ import { socketEvents } from '../shared/sockEvents';
 const { SEND, VOTE, GET_DATA } = socketEvents;
 
 export const intialize = (socket: Socket, io: any) => {
-  console.log('INTIALLIZED');
   //Socket Event to Where Question Data is Received and Added to Database
   socket.on(SEND, (data: DataReceived) => receiveDataHandler(data, io, socket));
 

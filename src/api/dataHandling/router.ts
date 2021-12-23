@@ -3,10 +3,11 @@ import { validateRequest } from '../../shared/middlewares/validation';
 import { addData } from './controller';
 import { DataSchema } from './schema';
 import CustomError from '../../shared/error';
+import { validateReCaptcha } from '../../shared/middlewares/captchaValidation';
 
 export const dataHandler = (): Router => {
   const app = Router();
-  app.post('/', validateRequest('body', DataSchema), handelData);
+  app.post('/', validateReCaptcha, validateRequest('body', DataSchema), handelData);
   return app;
 };
 

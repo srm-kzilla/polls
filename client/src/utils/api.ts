@@ -8,9 +8,17 @@ export const axiosReq: AxiosInstance = axios.create({
   baseURL: URLS.BASE_URL,
 });
 
-export const handelData = async (payload: PollData, validTill: number): Promise<boolean> => {
+const axiosReqShort: AxiosInstance = axios.create({
+  baseURL: URLS.KZILLA_XYZ_SHORTEN_URL,
+  headers: {
+    authorization: process.env.REACT_APP_KZILLA_XYZ,
+    'Content-Type': 'application/json',
+  },
+});
+
+export const handelData = async (payload: PollData, validTill: number, token: string): Promise<boolean> => {
   try {
-    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, { ...payload, validTill });
+    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, { ...payload, validTill, token });
     if (!res.status) {
       errorHandler(res.data);
       return false;
@@ -19,6 +27,15 @@ export const handelData = async (payload: PollData, validTill: number): Promise<
     }
   } catch (error) {
     return false;
+  }
+};
+
+export const shortenURL = async (longUrl: string): Promise<string> => {
+  try {
+    const res: any = await axiosReqShort.post(URLS.KZILLA_XYZ_SHORTEN_URL, JSON.stringify({ longUrl: longUrl }));
+    return res.data.shortCode;
+  } catch (error) {
+    return 'There is some error';
   }
 };
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { History } from 'history';
 import { errorHandler, handelData } from '../../utils/api';
 import { nanoid } from 'nanoid';
@@ -8,6 +8,7 @@ import Footer from '../../components/footer';
 import { FiX } from 'react-icons/fi';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import { BiLoaderCircle } from 'react-icons/bi';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Props {
   history: History;
@@ -19,6 +20,8 @@ const HomePage = ({ history }: Props) => {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(1);
+  const reRef: any = useRef<ReCAPTCHA>();
+  const siteKey: any = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
@@ -67,6 +70,9 @@ const HomePage = ({ history }: Props) => {
       setLoading(true);
       const adminId = nanoid();
       const userId = nanoid();
+      const token = await reRef.current.executeAsync();
+      reRef.current.reset();
+      console.log('This is' + token);
       const res = await handelData(
         {
           question,
@@ -75,6 +81,7 @@ const HomePage = ({ history }: Props) => {
           userId: userId,
         },
         timer,
+        token,
       );
       if (res) history.push(`/results/${adminId}`);
       else {
@@ -95,7 +102,7 @@ const HomePage = ({ history }: Props) => {
   return (
     <div className="w-screen h-screen">
       <Nav check={true} />
-      <div className="flex justify-center items-center z-40 md:h-5/6">
+      <div className="flex justify-center items-center z-40 mt-10 md:mt-0 md:h-5/6">
         <form
           className="w-11/12 sm:w-10/12 md:w-3/5 mb-28 relative  flex-row justify-center text-center items-center  z-40"
           onSubmit={handelSubmit}
@@ -166,6 +173,7 @@ const HomePage = ({ history }: Props) => {
               <span>Add Option</span>
             </button>
           </div>
+          <ReCAPTCHA sitekey={siteKey} ref={reRef} size="invisible" />
           <button
             type="submit"
             className="mt-5 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
