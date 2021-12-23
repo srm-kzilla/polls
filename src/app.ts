@@ -6,11 +6,15 @@ import { intialize } from './socket';
 import route from './api';
 import cors from 'cors';
 import { errorHandler } from './shared/middlewares/errorHandler';
+import { limiter } from './shared/middlewares/rateLimiter';
+import mongoSanitize from 'express-mongo-sanitize';
 
 const startServer = () => {
   const app = express();
   app.use(cors());
   app.use(express.json());
+  app.use(mongoSanitize());
+  app.use(limiter);
   app.use('/', route());
   app.use(errorHandler);
 

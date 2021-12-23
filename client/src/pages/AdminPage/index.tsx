@@ -10,6 +10,7 @@ import circle from '../../assets/img/Highlight_07.png';
 import { IoMdCopy } from 'react-icons/io';
 import { successHandler } from '../../utils/api';
 import Footer from '../../components/footer';
+import { shortenURL } from '../../utils/api';
 
 let socket: Socket;
 
@@ -29,11 +30,20 @@ const AdminPage = () => {
     socket.emit(SOCKET_EVENTS.GET_DATA, { adminId: id });
   }, [id]);
 
-  const pollDataHandler = (pollData: PollData) => {
+  const pollDataHandler = async (pollData: PollData) => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
     setUserId(pollData.userId);
-    setUserLink(`${URLS.USER_URL}${pollData.userId}`);
+    if (userLink === '') {
+      await shortenURL(`${URLS.USER_URL}${pollData.userId}`)
+        .then(res => {
+          if (res === 'There is some error') setUserLink(`${URLS.USER_URL}${pollData.userId}`);
+          else setUserLink(`${URLS.KZILLA_XYZ_URL}${res}`);
+        })
+        .catch(error => {
+          setUserLink(`${URLS.USER_URL}${pollData.userId}`);
+        });
+    }
   };
 
   useEffect(() => {
@@ -57,7 +67,7 @@ const AdminPage = () => {
     socket.on(SOCKET_EVENTS.UPDATE, pollDataHandler);
     socket.on(SOCKET_EVENTS.RESPONSE, error => {
       if (error.msg == "Poll doesn't exists or expired.") {
-        errorHandler('Polls time limit expired.No more vore updates.');
+        errorHandler('Polls time limit expired.');
       } else errorHandler('There is some issue, please try again');
     });
   });
@@ -104,7 +114,7 @@ const AdminPage = () => {
           <div className="mt-10 w-full z-40">
             <input
               className="w-4/5 text-base sm:w-3/5 px-3 py-2 rounded bg-custom-blue-back1 outline-none"
-              value={`${URLS.USER_URL}${userId}`}
+              value={userLink}
             ></input>
             <button className="ml-3 h-full z-40" onClick={handelCopyClipboard}>
               <IoMdCopy className="text-xl" />

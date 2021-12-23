@@ -15,4 +15,10 @@ export default {
 
   //MONGODB URI
   databaseURL: process.env.MONGO_URL,
+
+  //Recaptcha credentials
+
+  recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
+
+  recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY,
 };
