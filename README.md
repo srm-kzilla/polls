@@ -71,20 +71,6 @@ Please read `Contributing.md` for details on our code of conduct, and the proces
 
 <table>
 <tr align="center">
-<td>
-
-Harsh Goel
-
-<p align="center">
-  <img src = "https://github.com/harshgoel05.png"  height="120" alt="Devesh Teotia">
-</p>
-<p align="center">
-<a href = "https://github.com/harshgoel05"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
-<a href = "https://www.linkedin.com/in/harshgoel05/">
-  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
-</a>
-</p>
-</td>
   <td>
 
 Devesh Teotia
@@ -99,8 +85,40 @@ Devesh Teotia
 </a>
 </p>
 </td>
+<td>
 
-  </table>
+Harsh Goel
+
+<p align="center">
+  <img src = "https://github.com/harshgoel05.png"  height="120" alt="Devesh Teotia">
+</p>
+<p align="center">
+<a href = "https://github.com/harshgoel05"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://www.linkedin.com/in/harshgoel05/">
+  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
+</a>
+</p>
+</td>
+<td>
+
+Yaksh Chopra
+
+<p align="center">
+  <img src = "https://avatars.githubusercontent.com/u/42693629?v=4"  height="120" alt="Yaksh Chopra">
+</p>
+<p align="center">
+<a href = "https://github.com/Yakshchopra"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://www.linkedin.com/in/yaksh-chopra/">
+  <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
+</a>
+</p>
+</td>
+
+  
+  
+
+
+
 </tr>
   </table>
 
