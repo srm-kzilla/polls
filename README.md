@@ -31,7 +31,7 @@ crafted with <span style="color: #8b0000;">&hearts;</span> by your friends on th
   <img alt="Dashboard" src="https://user-images.githubusercontent.com/58245666/147399240-79aaee76-6fd3-406b-9160-f991da0c2243.png" />
 </div>
 <div align="center">
-  <img alt="User Page" src="https://user-images.githubusercontent.com/58245666/145573905-e3834918-f75c-42a6-b2b3-59ab1a9c7ca4.png" />
+  <img alt="User Page" src="https://user-images.githubusercontent.com/58245666/147399370-00ca6352-f2a2-4528-84f2-c3675c44efce.png" />
 </div>
 
 
