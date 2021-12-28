@@ -66,7 +66,7 @@ const UserPage = ({ history }: Props) => {
       setOptions([...pollData.options]);
     });
     socket.on(SOCKET_EVENTS.RESPONSE, error => {
-      if (error.msg == "Poll doesn't exists or expired.") {
+      if (error.msg === "Poll doesn't exists or expired.") {
         history.push('/error');
         localStorage.removeItem(id);
         setSelected(false);
@@ -90,7 +90,7 @@ const UserPage = ({ history }: Props) => {
   };
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-auto">
       <Nav check={true} />
       <div className="flex justify-center items-center z-40">
         <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 mt-8 items-center z-40">
@@ -98,7 +98,7 @@ const UserPage = ({ history }: Props) => {
           <h1 className="block break-all text-custom-blue-dark font-medium text-2xl sm:text-3xl  question">
             {question}
           </h1>
-          <p className="text-gray-400 text-sm sm:text-base">Please select the most appropriate answer</p>
+          <p className="text-gray-400 text-sm mt-3 sm:text-base">Please select the most appropriate answer</p>
           <div
             className={
               options.length <= 4
@@ -117,23 +117,24 @@ const UserPage = ({ history }: Props) => {
                       onClick={e => handelVote(e)}
                     >
                       <motion.div
-                        variants={svgVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="border-solid border-2 mr-3 border-green-400 w-4 h-4"
+                        initial={{ width: 0, height: 0 }}
+                        animate={{ width: 26, height: 26 }}
+                        className="border-solid border-2 mr-3 flex justify-center items-center rounded-md border-green-400 w-6 h-6"
                       >
-                        <svg
-                          className="text-teal-500 fill-current"
+                        <motion.svg
+                          width="13.12"
+                          height="10"
+                          viewBox="0 0 18 12"
+                          fill="none"
                           xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
                         >
                           <motion.path
-                            variants={pathVariants}
-                            d="M0 11.386l1.17-1.206c1.951.522 5.313 1.731 8.33 3.597 3.175-4.177 9.582-9.398 13.456-11.777l1.044 1.073-14 18.927-10-10.614z"
+                            initial={{ pathLength: 0 }}
+                            animate={{ pathLength: 1 }}
+                            d="M5.59 10.58L1.42 6.41L0 7.82L5.59 13.41L17.59 1.41L16.18 0L5.59 10.58Z"
+                            fill="#49C678"
                           />
-                        </svg>
+                        </motion.svg>
                       </motion.div>
 
                       {option.value}
@@ -150,7 +151,7 @@ const UserPage = ({ history }: Props) => {
                       onClick={e => handelVote(e)}
                       disabled={selected}
                     >
-                      <div className="border-solid border-2 mr-3 border-gray-500 w-4 h-4"></div>
+                      <div className="border-solid border-2 mr-3 border-gray-500 rounded-md w-6 h-6"></div>
                       {option.value}
                     </button>
                   )}

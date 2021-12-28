@@ -14,6 +14,7 @@ module.exports = {
         'custom-blue-lightest': '#192F7D',
         'custom-blue-back1': '#EFF1F6',
         'custom-white-back2': '#F8F8F8',
+        'custom-purple': '#50619C',
       },
     },
   },
