@@ -2,6 +2,8 @@ import React from 'react';
 import { ReactComponent as Logo } from '../../assets/svg/logo.svg';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
+import arrow from '../../assets/img/arrow.svg';
+import link from '../../assets/img/link.svg';
 
 interface Props {
   check: boolean;
@@ -10,12 +12,14 @@ interface Props {
 const Nav = ({ check }: Props) => {
   const history = useHistory();
   return (
-    <div className="flex justify-between items-center  h-1/6 ">
+    <div className="flex mt-4 justify-between items-center">
       <Logo className="ml-5 w-12 cursor-pointer" onClick={() => history.push('/')}></Logo>
 
       {check ? (
-        <Link to="/" className="text-white relative px-4 py-3 bg-blue-900  text-center ">
+        <Link to="/" className="text-white relative sm:text-sm text-xs px-4 py-3 bg-custom-purple  text-center ">
           SRMKZILLA QUIZ
+          <img src={arrow} draggable={false} className="absolute h-full right-full top-0" alt="" />
+          <img draggable={false} src={link} className="absolute h-full right-0 bottom-full" alt="" />
         </Link>
       ) : (
         <div>
@@ -32,4 +36,3 @@ const Nav = ({ check }: Props) => {
 };
 
 export default Nav;
-

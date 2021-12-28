@@ -36,14 +36,14 @@ const HomePage = ({ history }: Props) => {
 
   const handelDelete = (event: any) => {
     const temp = options.filter((data: Option) => {
-      if (data.id != event.currentTarget.name) return data;
+      if (data.id !== event.currentTarget.name) return data;
     });
     setOption(temp);
   };
 
   const validation = (): boolean => {
     let status: boolean = false;
-    if (question.length == 0) {
+    if (question.length === 0) {
       errorHandler('Enter Valid Question.');
       status = true;
     } else if (options.length < 2 || options.length > 6) {
@@ -52,7 +52,7 @@ const HomePage = ({ history }: Props) => {
     } else {
       var check = false;
       options.map((data: Option) => {
-        if (data.value.length == 0) check = true;
+        if (data.value.length === 0) check = true;
       });
       if (check) {
         status = true;
@@ -92,7 +92,7 @@ const HomePage = ({ history }: Props) => {
   };
 
   const handelAddOption = () => {
-    if (options.length == 5) {
+    if (options.length === 5) {
       errorHandler('Maximum 5 options are Allowed.');
     } else {
       setOption([...options, { count: 0, value: '', id: nanoid(5) }]);
@@ -100,11 +100,11 @@ const HomePage = ({ history }: Props) => {
   };
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-auto">
       <Nav check={true} />
       <div className="flex justify-center items-center z-40 mt-10 md:mt-0 md:h-5/6">
         <form
-          className="w-11/12 sm:w-10/12 md:w-3/5 mb-28 relative  flex-row justify-center text-center items-center  z-40"
+          className="w-10/12 sm:w-10/12 md:w-3/5 mb-28 relative  flex-row justify-center text-center items-center  z-40"
           onSubmit={handelSubmit}
         >
           <input
@@ -159,7 +159,7 @@ const HomePage = ({ history }: Props) => {
           </button> */}
           <div className="flex justify-between mt-5 items-center text-center">
             <select
-              className="mt-5 font-medium text-custom-red-dark"
+              className="mt-5 font-medium outline-none text-custom-red-dark"
               value={timer}
               onChange={e => setTimer(Number(e.target.value))}
             >
@@ -181,7 +181,6 @@ const HomePage = ({ history }: Props) => {
             disabled={loading}
           >
             {loading ? <BiLoaderCircle>Loading</BiLoaderCircle> : 'Create Poll'}
-
           </button>
         </form>
       </div>
