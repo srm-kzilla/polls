@@ -51,7 +51,9 @@ const AdminPage = () => {
     var temp = ['w-4/5'];
     var j = 1;
     for (var i = 1; i < options.length; i++) {
-      if (options[i].count === options[i - 1].count) {
+      if (options[i].count === 0) {
+        temp.push('w-1/2');
+      } else if (options[i].count === options[i - 1].count) {
         temp.push(temp[i - 1]);
       } else {
         temp.push(widthConst[j]);
