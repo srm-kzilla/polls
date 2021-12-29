@@ -107,7 +107,7 @@ const AdminPage = () => {
                     <img src={circle} draggable={false} alt="" />
                     <p className=" text-gray-600 text-base absolute">{option.count}</p>
                   </div>
-                  <img className={`absolute left-0 top-0 ${width[i]} h-full`} draggable={false} src={vector} alt="" />
+                  {/* <img className={`absolute left-0 top-0 ${width[i]} h-full`} draggable={false} src={vector} alt="" /> */}
                 </div>
               ))}
           </div>
