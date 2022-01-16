@@ -8,7 +8,7 @@ export default {
   //CORS FOR SOCKET INTIALIZATION
   corsParms: {
     cors: {
-      origin: 'http://localhost:3000',
+      origin: 'https://polls.srmkzilla.net',
       methods: ['GET', 'POST'],
     },
   },
