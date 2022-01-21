@@ -1,6 +1,7 @@
 import database from '../shared/database';
 
 require('dotenv').config();
+var env = process.env.NODE_ENV || 'development';
 
 export default {
   port: parseInt(process.env.PORT) || 5000,
@@ -8,7 +9,7 @@ export default {
   //CORS FOR SOCKET INTIALIZATION
   corsParms: {
     cors: {
-      origin: 'https://polls.srmkzilla.net',
+      origin: env === 'development' ? 'http://localhost:3000' : 'https://polls.srmkzilla.net',
       methods: ['GET', 'POST'],
     },
   },
