@@ -1,5 +1,3 @@
-import database from '../shared/database';
-
 require('dotenv').config();
 
 export default {
