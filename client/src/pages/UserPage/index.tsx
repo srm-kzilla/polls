@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
@@ -7,33 +7,7 @@ import { errorHandler } from '../../utils/api';
 import { History } from 'history';
 import Nav from '../../components/Navbar';
 import Footer from '../../components/footer';
-import { HiOutlineStar, HiStar } from 'react-icons/hi';
-import { FiStar } from 'react-icons/fi';
-import { BsStarFill } from 'react-icons/bs';
-import { ReactComponent as tickMark } from '../../assets/svg/checkMark.svg';
 import { motion } from 'framer-motion';
-
-const pathVariants = {
-  hidden: {
-    opacity: 0,
-    pathLength: 1,
-  },
-  visible: {
-    opacity: 1,
-    pathLength: 0,
-    transition: {
-      duration: 2,
-      delay: 1,
-    },
-  },
-};
-const svgVariants = {
-  hidden: { rotate: -180 },
-  visible: {
-    rotate: 0,
-    transition: { duration: 1 },
-  },
-};
 
 let socket: Socket;
 
@@ -47,7 +21,6 @@ const UserPage = ({ history }: Props) => {
   const { id } = useParams<User>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
-  const [error, setError] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<any>('');
   const [selected, setSelected] = useState<boolean>(false);
 
@@ -94,7 +67,6 @@ const UserPage = ({ history }: Props) => {
       <Nav check={true} />
       <div className="flex justify-center items-center z-40">
         <div className="flex px-2 flex-col w-full md:4/5 sm:w-3/5 sm:px-0 mt-8 items-center z-40">
-          {error.length > 0 && <p>{error}</p>}
           <h1 className="block break-all text-custom-blue-dark font-medium text-2xl sm:text-3xl  question">
             {question}
           </h1>

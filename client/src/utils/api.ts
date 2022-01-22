@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { off } from 'process';
 import { toast } from 'react-toastify';
 import { URLS } from './constants';
 import { PollData } from './interfaces';

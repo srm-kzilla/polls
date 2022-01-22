@@ -5,7 +5,6 @@ import HomePage from './pages/HompePage';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import { ToastContainer } from 'react-toastify';
-import Nav from './components/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 import LandingPage from './pages/LandingPage';
 import Error from './pages/ErrorPage';

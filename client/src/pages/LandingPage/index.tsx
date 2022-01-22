@@ -1,5 +1,4 @@
 import React from 'react';
-import forms from '../../assets/img/forms.png';
 import { ReactComponent as Forms } from '../../assets/svg/Group_112.svg';
 import Nav from '../../components/Navbar';
 import Underline from '../../components/AnimatedSvg/underline';

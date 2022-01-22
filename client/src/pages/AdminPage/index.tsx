@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import io, { Socket } from 'socket.io-client';
 import { PollData, Option } from '../../utils/interfaces';
 import { URLS, SOCKET_EVENTS } from '../../utils/constants';
 import { errorHandler } from '../../utils/api';
 import Nav from '../../components/Navbar';
-import vector from '../../assets/img/Vector.png';
 import circle from '../../assets/img/Highlight_07.png';
 import { IoMdCopy } from 'react-icons/io';
 import { successHandler } from '../../utils/api';
@@ -21,9 +20,7 @@ const AdminPage = () => {
   const { id } = useParams<Admin>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
-  const [userId, setUserId] = useState<string>('');
   const [userLink, setUserLink] = useState<string>('');
-  const [width, setWidth] = useState<string[]>([]);
 
   useEffect(() => {
     socket = io(URLS.BASE_URL);
@@ -33,7 +30,6 @@ const AdminPage = () => {
   const pollDataHandler = async (pollData: PollData) => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
-    setUserId(pollData.userId);
     if (userLink === '') {
       await shortenURL(`${URLS.USER_URL}${pollData.userId}`)
         .then(res => {
@@ -61,14 +57,13 @@ const AdminPage = () => {
       }
     }
     console.log(temp);
-    setWidth(temp);
   }, [options]);
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.DATA, pollDataHandler);
     socket.on(SOCKET_EVENTS.UPDATE, pollDataHandler);
     socket.on(SOCKET_EVENTS.RESPONSE, error => {
-      if (error.msg == "Poll doesn't exists or expired.") {
+      if (error.msg === "Poll doesn't exists or expired.") {
         errorHandler('Polls time limit expired.');
       } else errorHandler('There is some issue, please try again');
     });

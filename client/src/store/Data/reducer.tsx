@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import { PollData } from '../../utils/interfaces';
 
 const dataReducer = (state = {}, action: { type: string; payload: PollData }) => {

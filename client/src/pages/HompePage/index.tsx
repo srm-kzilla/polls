@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { useState, useRef } from 'react';
 import { History } from 'history';
 import { errorHandler, handelData } from '../../utils/api';
@@ -17,7 +18,6 @@ interface Props {
 const HomePage = ({ history }: Props) => {
   const [question, setQuestion] = useState<string>('');
   const [options, setOption] = useState<Option[]>([]);
-  const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(1);
   const reRef: any = useRef<ReCAPTCHA>();
@@ -26,7 +26,7 @@ const HomePage = ({ history }: Props) => {
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
     const temp = options.map((data: Option) => {
-      if (data.id == name) {
+      if (data.id === name) {
         return { ...data, value: value };
       }
       return data;
@@ -64,7 +64,6 @@ const HomePage = ({ history }: Props) => {
 
   const handelSubmit = async (event: any) => {
     event.preventDefault();
-    setError(false);
     const check: boolean = validation();
     if (!check) {
       setLoading(true);
