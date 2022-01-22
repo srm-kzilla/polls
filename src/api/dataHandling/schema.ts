@@ -13,5 +13,4 @@ export const DataSchema = yup.object({
   adminId: yup.string().required(),
   validTill: yup.number().default(1).required(),
   createdAt: yup.date().default(new Date()).notRequired(),
-  token: yup.string().required(),
 });

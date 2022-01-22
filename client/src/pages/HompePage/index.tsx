@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { History } from 'history';
-import { errorHandler, handelData } from '../../utils/api';
+import { errorHandler, postData } from '../../utils/api';
 import { nanoid } from 'nanoid';
 import { Option } from '../../utils/interfaces';
 import Nav from '../../components/Navbar';
@@ -9,7 +9,6 @@ import Footer from '../../components/footer';
 import { FiX } from 'react-icons/fi';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import { BiLoaderCircle } from 'react-icons/bi';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Props {
   history: History;
@@ -20,8 +19,6 @@ const HomePage = ({ history }: Props) => {
   const [options, setOption] = useState<Option[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(1);
-  const reRef: any = useRef<ReCAPTCHA>();
-  const siteKey: any = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 
   const handelOptions = (event: any) => {
     const { name, value } = event?.target;
@@ -63,30 +60,32 @@ const HomePage = ({ history }: Props) => {
   };
 
   const handelSubmit = async (event: any) => {
-    event.preventDefault();
-    const check: boolean = validation();
-    if (!check) {
-      setLoading(true);
-      const adminId = nanoid();
-      const userId = nanoid();
-      const token = await reRef.current.executeAsync();
-      reRef.current.reset();
-      console.log('This is' + token);
-      const res = await handelData(
-        {
-          question,
-          options,
-          adminId: adminId,
-          userId: userId,
-        },
-        timer,
-        token,
-      );
-      if (res) history.push(`/results/${adminId}`);
-      else {
-        errorHandler('Something is Wrong.');
-        setLoading(false);
+    try {
+      event.preventDefault();
+      const check: boolean = validation();
+      if (!check) {
+        setLoading(true);
+        const adminId = nanoid();
+        const userId = nanoid();
+        const res = await postData(
+          {
+            question,
+            options,
+            adminId: adminId,
+            userId: userId,
+          },
+          timer,
+        );
+        if (res) history.push(`/results/${adminId}`);
+        else {
+          errorHandler('Something is Wrong.');
+          setLoading(false);
+        }
       }
+    } catch (err) {
+      console.log(err);
+      errorHandler('Something is Wrong.');
+      setLoading(false);
     }
   };
 
@@ -121,13 +120,14 @@ const HomePage = ({ history }: Props) => {
                 : 'mt-3 lg:flex-row lg:flex lg:flex-wrap text-center justify-center items-end w-full '
             }
           >
-            {options.map((option: Option) => (
+            {options.map((option: Option, index: number) => (
               <div
                 className={
                   options.length <= 3
                     ? 'w-full mt-5 flex text-center justify-center items-center'
                     : 'w-full lg:w-1/2 mt-5'
                 }
+                key={index}
               >
                 <input
                   type="text"
@@ -172,7 +172,6 @@ const HomePage = ({ history }: Props) => {
               <span>Add Option</span>
             </button>
           </div>
-          <ReCAPTCHA sitekey={siteKey} ref={reRef} size="invisible" />
           <button
             type="submit"
             className="mt-5 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
