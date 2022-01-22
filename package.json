@@ -5,10 +5,11 @@
   "main": "build/app.js",
   "scripts": {
     "start": "tsc && node build/app.js",
-    "dev": "tsc-watch --onSuccess \"node ./build/app.js\""
+    "dev": "tsc-watch --onSuccess \"node ./build/app.js\"",
+    "build": "npx tsc"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "SRMKZILLA",
+  "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/mongodb": "^4.0.7",
