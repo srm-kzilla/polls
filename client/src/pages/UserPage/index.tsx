@@ -49,7 +49,7 @@ const UserPage = ({ history }: Props) => {
     });
   });
 
-  const handelVote = (event: any) => {
+  const handleVote = (event: any) => {
     var optionID: string = event.currentTarget.name;
     console.log(event.target);
     if (localStorage.getItem(id)) {
@@ -86,7 +86,7 @@ const UserPage = ({ history }: Props) => {
                       type="button"
                       className="w-full break-all  flex items-center  bg-green-50 text-green-400 border-solid border-1 border-green-400 text-left px-6 py-4  sm:text-xl rounded-xl"
                       name={option.id}
-                      onClick={e => handelVote(e)}
+                      onClick={e => handleVote(e)}
                     >
                       <motion.div
                         initial={{ width: 0, height: 0 }}
@@ -120,7 +120,7 @@ const UserPage = ({ history }: Props) => {
                           : 'w-full opacity-70 flex items-center text-center break-all text-custom-blue-lightest bg-gray-100 px-6 py-4  sm:text-xl rounded-xl'
                       }
                       name={option.id}
-                      onClick={e => handelVote(e)}
+                      onClick={e => handleVote(e)}
                       disabled={selected}
                     >
                       <div className="border-solid border-2 mr-3 border-gray-500 rounded-md w-6 h-6"></div>

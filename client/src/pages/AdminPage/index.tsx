@@ -68,7 +68,7 @@ const AdminPage = () => {
       } else errorHandler('There is some issue, please try again');
     });
   });
-  const handelCopyClipboard = () => {
+  const handleCopyClipboard = () => {
     navigator.clipboard.writeText(userLink);
     successHandler('Successfully Copied to Clipboard!');
   };
@@ -113,7 +113,7 @@ const AdminPage = () => {
             ></input>
             <button
               className="ml-3 h-full text-custom-blue-dark text-3xl z-40 opacity-80"
-              onClick={handelCopyClipboard}
+              onClick={handleCopyClipboard}
             >
               <IoMdCopy />
             </button>

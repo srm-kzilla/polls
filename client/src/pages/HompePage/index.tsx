@@ -20,7 +20,7 @@ const HomePage = ({ history }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(1);
 
-  const handelOptions = (event: any) => {
+  const handleOptions = (event: any) => {
     const { name, value } = event?.target;
     const temp = options.map((data: Option) => {
       if (data.id === name) {
@@ -31,7 +31,7 @@ const HomePage = ({ history }: Props) => {
     setOption(temp);
   };
 
-  const handelDelete = (event: any) => {
+  const handleDelete = (event: any) => {
     const temp = options.filter((data: Option) => {
       if (data.id !== event.currentTarget.name) return data;
     });
@@ -59,7 +59,7 @@ const HomePage = ({ history }: Props) => {
     return status;
   };
 
-  const handelSubmit = async (event: any) => {
+  const handleSubmit = async (event: any) => {
     try {
       event.preventDefault();
       const check: boolean = validation();
@@ -89,7 +89,7 @@ const HomePage = ({ history }: Props) => {
     }
   };
 
-  const handelAddOption = () => {
+  const handleAddOption = () => {
     if (options.length === 5) {
       errorHandler('Maximum 5 options are Allowed.');
     } else {
@@ -103,7 +103,7 @@ const HomePage = ({ history }: Props) => {
       <div className="flex justify-center items-center z-40 mt-10 md:mt-0 md:h-5/6">
         <form
           className="w-10/12 sm:w-10/12 md:w-3/5 mb-28 relative  flex-row justify-center text-center items-center  z-40"
-          onSubmit={handelSubmit}
+          onSubmit={handleSubmit}
         >
           <input
             value={question}
@@ -135,14 +135,14 @@ const HomePage = ({ history }: Props) => {
                   value={option.value}
                   name={option.id}
                   key={option.id}
-                  onChange={handelOptions}
+                  onChange={handleOptions}
                   className={
                     options.length <= 3
                       ? 'px-6 py-4 w-11/12 sm:w-4/5 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
                       : 'px-6 py-4 w-10/12 sm:text-xl rounded-xl z-40  bg-gray-100 outline-none text-black placeholder-gray-400'
                   }
                 ></input>
-                <button type="button" name={option.id} onClick={handelDelete}>
+                <button type="button" name={option.id} onClick={handleDelete}>
                   <FiX className="ml-2 inline text-custom-red-dark text-2xl font-semibold" />
                 </button>
               </div>
@@ -151,7 +151,7 @@ const HomePage = ({ history }: Props) => {
           {/* <button
             type="button"
             className="mt-5 flex items-center absolute left-3/4 transform -translate-x-1/2 justify-center font-medium text-custom-red-dark "
-            onClick={handelAddOption}
+            onClick={handleAddOption}
           >
             <AiFillPlusSquare className="inline rounded-2xl text-2xl ml-2 text-red-500 mr-2 z-40" />
             <span>Add Option</span>
@@ -167,7 +167,7 @@ const HomePage = ({ history }: Props) => {
               <option value="16">16 Hours</option>
               <option value="24">24 Hours</option>
             </select>
-            <button type="button" className="mt-5 font-medium text-custom-red-dark" onClick={handelAddOption}>
+            <button type="button" className="mt-5 font-medium text-custom-red-dark" onClick={handleAddOption}>
               <AiFillPlusSquare className="inline rounded-2xl text-2xl ml-2 text-red-500 mr-2 z-40" />
               <span>Add Option</span>
             </button>
@@ -175,7 +175,7 @@ const HomePage = ({ history }: Props) => {
           <button
             type="submit"
             className="mt-5 bg-custom-blue-light   text-white sm:text-xl rounded-xl px-6 py-2 z-40"
-            onSubmit={handelSubmit}
+            onSubmit={handleSubmit}
             disabled={loading}
           >
             {loading ? <BiLoaderCircle>Loading</BiLoaderCircle> : 'Create Poll'}
