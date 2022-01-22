@@ -10,7 +10,7 @@
 
 <br>
 <p align="center">
-Your Ultimate Polls Warehouse. 🔗
+The easiest way to organise polls 📊
 </p>
 <p align="center">
 crafted with <span style="color: #8b0000;">&hearts;</span> by your friends on the <a href="https://srmkzilla.net">SRMKZILLA</a> team.
