@@ -14,10 +14,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root'),
 );
-
-const disableConsole = () => {
-  console.log = () => {};
-  console.error = () => {};
-};
-
-disableConsole();
