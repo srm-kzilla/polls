@@ -7,8 +7,7 @@ import { validateReCaptcha } from '../../shared/middlewares/captchaValidation';
 
 export const dataHandler = (): Router => {
   const app = Router();
-  //app.post('/', validateReCaptcha, validateRequest('body', DataSchema), handleData);
-  app.post('/', validateRequest('body', DataSchema), handleData);
+  app.post('/', validateReCaptcha, validateRequest('body', DataSchema), handleData);
   return app;
 };
 

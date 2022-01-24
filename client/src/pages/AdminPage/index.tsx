@@ -20,7 +20,7 @@ const AdminPage = () => {
   const { id } = useParams<Admin>();
   const [question, setQuestions] = useState<string>('');
   const [options, setOptions] = useState<Option[]>([]);
-  const [userLink, setUserLink] = useState<string>('');
+  const [userLink, setUserLink] = useState<any>('');
 
   useEffect(() => {
     socket = io(URLS.BASE_URL);
@@ -31,15 +31,13 @@ const AdminPage = () => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
     setUserLink(pollData.shortUrl);
-    if (userLink === 'NaN' || userLink === `${URLS.USER_URL}${pollData.userId}` || userLink === '') {
-      await shortenURL(`${URLS.USER_URL}${pollData.userId}`, id)
-        .then(res => {
-          if (res === 'There is some error') setUserLink(`${URLS.USER_URL}${pollData.userId}`);
-          else setUserLink(`${URLS.KZILLA_XYZ_URL}${res}`);
-        })
-        .catch(error => {
-          setUserLink(`${URLS.USER_URL}${pollData.userId}`);
-        });
+    if (!userLink || userLink === `${URLS.USER_URL}${pollData.userId}`) {
+      const res = await shortenURL(`${URLS.USER_URL}${pollData.userId}`, id);
+      if (!res.status) {
+        setUserLink(`${URLS.USER_URL}${pollData.userId}`);
+      } else {
+        setUserLink(`${URLS.KZILLA_XYZ_URL}${res.data}`);
+      }
     }
   };
 

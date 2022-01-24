@@ -1,5 +1,4 @@
 require('dotenv').config();
-var env = process.env.NODE_ENV || 'development';
 
 export default {
   port: parseInt(process.env.PORT) || 5000,
@@ -7,7 +6,7 @@ export default {
   //CORS FOR SOCKET INTIALIZATION
   corsParms: {
     cors: {
-      origin: env === 'development' ? 'http://localhost:3000' : 'https://polls.srmkzilla.net',
+      origin: process.env.NODE_ENV === 'production' ? 'https://polls.srmkzilla.net' : 'http://localhost:3000',
       methods: ['GET', 'POST'],
     },
   },

@@ -9,5 +9,5 @@ export interface PollData {
   options: Option[];
   adminId: string;
   userId: string;
-  shortUrl: string;
+  shortUrl?: string;
 }
