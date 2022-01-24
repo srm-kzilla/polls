@@ -20,4 +20,7 @@ export default {
   recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
 
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY,
+
+  //KZILLA XYZ KEY
+  xyzSecretKey: process.env.KZILLA_XYZ_SHORTEN_URL,
 };

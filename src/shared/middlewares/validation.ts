@@ -22,6 +22,7 @@ export function validateRequest(location: RequestLocation, schema: yup.AnyObject
       req.body = data;
       next();
     } catch (err) {
+      console.log(err);
       next(new CustomError('Validation Failure', 400));
     }
   };

@@ -17,7 +17,7 @@ function App() {
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/new" component={HomePage} />
         <Route exact path="/results/:id" component={AdminPage} />
-        <Route exact path="/user/:id" component={UserPage} />
+        <Route exact path="/:id" component={UserPage} />
         <Route exact path="/error" component={Expired}></Route>
         <Route component={Error}></Route>
       </Switch>

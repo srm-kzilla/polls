@@ -41,6 +41,7 @@ const axiosReqShort: AxiosInstance = axios.create({
 export const postData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
     const res = await axiosReq.post('/data', { ...payload, validTill });
+    console.log(res);
     if (!res.status) {
       errorHandler(res.data);
       return false;
@@ -52,9 +53,9 @@ export const postData = async (payload: PollData, validTill: number): Promise<bo
   }
 };
 
-export const shortenURL = async (longUrl: string): Promise<string> => {
+export const shortenURL = async (longUrl: string, id: string): Promise<string> => {
   try {
-    const res: any = await axiosReqShort.post(URLS.KZILLA_XYZ_SHORTEN_URL, JSON.stringify({ longUrl: longUrl }));
+    const res: any = axiosReq.post('/shortUrl', { longUrl: longUrl, adminId: id });
     return res.data.shortCode;
   } catch (error) {
     return 'There is some error';

@@ -73,6 +73,7 @@ const HomePage = ({ history }: Props) => {
             options,
             adminId: adminId,
             userId: userId,
+            shortUrl: 'NaN',
           },
           timer,
         );

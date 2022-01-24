@@ -30,8 +30,9 @@ const AdminPage = () => {
   const pollDataHandler = async (pollData: PollData) => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
-    if (userLink === '') {
-      await shortenURL(`${URLS.USER_URL}${pollData.userId}`)
+    setUserLink(pollData.shortUrl);
+    if (userLink === 'NaN' || userLink === `${URLS.USER_URL}${pollData.userId}` || userLink === '') {
+      await shortenURL(`${URLS.USER_URL}${pollData.userId}`, id)
         .then(res => {
           if (res === 'There is some error') setUserLink(`${URLS.USER_URL}${pollData.userId}`);
           else setUserLink(`${URLS.KZILLA_XYZ_URL}${res}`);
