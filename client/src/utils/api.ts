@@ -5,8 +5,8 @@ import { URLS } from './constants';
 import { PollData } from './interfaces';
 
 export default async function getRecaptchaToken(action: string) {
-  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
-  const recaptcha = await load(siteKey!);
+  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
+  const recaptcha = await load(siteKey);
   const token = await recaptcha.execute(action);
 
   return token;
