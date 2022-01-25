@@ -40,7 +40,7 @@ const axiosReqShort: AxiosInstance = axios.create({
 
 export const postData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
-    const res = await axiosReq.post('/polls/create', { ...payload, validTill });
+    const res = await axiosReq.post('/create', { ...payload, validTill });
     console.log(res);
     if (!res.status) {
       errorHandler(res.data);
@@ -55,7 +55,7 @@ export const postData = async (payload: PollData, validTill: number): Promise<bo
 
 export const shortenURL = async (longUrl: string, adminId: string): Promise<any> => {
   try {
-    const res: any = axiosReq.post('/shrink-url', { longUrl, adminId });
+    const res: any = await axiosReq.post('/shrink-url', { longUrl, adminId });
     return { status: true, data: res.data.statusCode };
   } catch (error) {
     return { status: false, error };
