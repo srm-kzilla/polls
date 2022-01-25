@@ -148,14 +148,7 @@ const HomePage = ({ history }: Props) => {
               </div>
             ))}
           </div>
-          {/* <button
-            type="button"
-            className="mt-5 flex items-center absolute left-3/4 transform -translate-x-1/2 justify-center font-medium text-custom-red-dark "
-            onClick={handleAddOption}
-          >
-            <AiFillPlusSquare className="inline rounded-2xl text-2xl ml-2 text-red-500 mr-2 z-40" />
-            <span>Add Option</span>
-          </button> */}
+
           <div className="flex justify-between mt-5 items-center text-center">
             <select
               className="mt-5 font-medium outline-none text-custom-red-dark"

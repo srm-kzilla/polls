@@ -5,8 +5,8 @@ import { URLS } from './constants';
 import { PollData } from './interfaces';
 
 export default async function getRecaptchaToken(action: string) {
-  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
-  const recaptcha = await load(siteKey!);
+  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
+  const recaptcha = await load(siteKey);
   const token = await recaptcha.execute(action);
 
   return token;
@@ -30,17 +30,10 @@ axiosReq.interceptors.request.use(async function (recdConfig) {
   return config;
 });
 
-const axiosReqShort: AxiosInstance = axios.create({
-  baseURL: URLS.KZILLA_XYZ_SHORTEN_URL,
-  headers: {
-    authorization: process.env.REACT_APP_KZILLA_XYZ,
-    'Content-Type': 'application/json',
-  },
-});
-
 export const postData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
-    const res = await axiosReq.post('/data', { ...payload, validTill });
+    const res = await axiosReq.post('/create', { ...payload, validTill });
+    console.log(res);
     if (!res.status) {
       errorHandler(res.data);
       return false;
@@ -52,12 +45,12 @@ export const postData = async (payload: PollData, validTill: number): Promise<bo
   }
 };
 
-export const shortenURL = async (longUrl: string): Promise<string> => {
+export const shortenURL = async (longUrl: string, adminId: string): Promise<any> => {
   try {
-    const res: any = await axiosReqShort.post(URLS.KZILLA_XYZ_SHORTEN_URL, JSON.stringify({ longUrl: longUrl }));
-    return res.data.shortCode;
+    const res: any = await axiosReq.post('/shrink-url', { longUrl, adminId });
+    return { status: true, data: res.data.statusCode };
   } catch (error) {
-    return 'There is some error';
+    return { status: false, error };
   }
 };
 
