@@ -30,14 +30,6 @@ axiosReq.interceptors.request.use(async function (recdConfig) {
   return config;
 });
 
-const axiosReqShort: AxiosInstance = axios.create({
-  baseURL: URLS.KZILLA_XYZ_SHORTEN_URL,
-  headers: {
-    authorization: process.env.REACT_APP_KZILLA_XYZ,
-    'Content-Type': 'application/json',
-  },
-});
-
 export const postData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
     const res = await axiosReq.post('/create', { ...payload, validTill });
