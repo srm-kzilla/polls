@@ -1,24 +1,39 @@
 import axios, { AxiosInstance } from 'axios';
-import { off } from 'process';
+import { load } from 'recaptcha-v3';
 import { toast } from 'react-toastify';
 import { URLS } from './constants';
 import { PollData } from './interfaces';
+
+export default async function getRecaptchaToken(action: string) {
+  const siteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY || '';
+  const recaptcha = await load(siteKey);
+  const token = await recaptcha.execute(action);
+
+  return token;
+}
 
 export const axiosReq: AxiosInstance = axios.create({
   baseURL: URLS.BASE_URL,
 });
 
-const axiosReqShort: AxiosInstance = axios.create({
-  baseURL: URLS.KZILLA_XYZ_SHORTEN_URL,
-  headers: {
-    authorization: process.env.REACT_APP_KZILLA_XYZ,
-    'Content-Type': 'application/json',
-  },
+axiosReq.interceptors.request.use(async function (recdConfig) {
+  let config = recdConfig;
+  if (
+    recdConfig.method?.toUpperCase() === 'PUT' ||
+    recdConfig.method?.toUpperCase() === 'POST' ||
+    recdConfig.method?.toUpperCase() === 'DELETE' ||
+    recdConfig.method?.toUpperCase() === 'PATCH'
+  ) {
+    const recaptchaToken = await getRecaptchaToken(recdConfig.method); // returns token
+    config.headers.common['x-recaptcha-token'] = recaptchaToken;
+  }
+  return config;
 });
 
-export const handelData = async (payload: PollData, validTill: number, token: string): Promise<boolean> => {
+export const postData = async (payload: PollData, validTill: number): Promise<boolean> => {
   try {
-    const res = await axiosReq.post(`${URLS.BASE_URL}/data`, { ...payload, validTill, token });
+    const res = await axiosReq.post('/create', { ...payload, validTill });
+    console.log(res);
     if (!res.status) {
       errorHandler(res.data);
       return false;
@@ -30,12 +45,12 @@ export const handelData = async (payload: PollData, validTill: number, token: st
   }
 };
 
-export const shortenURL = async (longUrl: string): Promise<string> => {
+export const shortenURL = async (longUrl: string, adminId: string): Promise<any> => {
   try {
-    const res: any = await axiosReqShort.post(URLS.KZILLA_XYZ_SHORTEN_URL, JSON.stringify({ longUrl: longUrl }));
-    return res.data.shortCode;
+    const res: any = await axiosReq.post('/shrink-url', { longUrl, adminId });
+    return { status: true, data: res.data.statusCode };
   } catch (error) {
-    return 'There is some error';
+    return { status: false, error };
   }
 };
 

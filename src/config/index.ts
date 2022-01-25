@@ -1,5 +1,3 @@
-import database from '../shared/database';
-
 require('dotenv').config();
 
 export default {
@@ -8,7 +6,7 @@ export default {
   //CORS FOR SOCKET INTIALIZATION
   corsParms: {
     cors: {
-      origin: 'https://polls.srmkzilla.net',
+      origin: process.env.NODE_ENV === 'production' ? 'https://polls.srmkzilla.net' : 'http://localhost:3000',
       methods: ['GET', 'POST'],
     },
   },
@@ -21,4 +19,7 @@ export default {
   recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
 
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY,
+
+  //KZILLA XYZ KEY
+  xyzSecretKey: process.env.KZILLA_XYZ_SHORTEN_URL,
 };

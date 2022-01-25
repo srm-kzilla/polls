@@ -20,3 +20,8 @@ export interface VoteData {
   userId: string; //ID to identify Poll in database
   id: string; // Option ID for voted option
 }
+
+export interface urlShort {
+  longUrl: string; //URL that is to be shortened.
+  adminId: string;
+}
