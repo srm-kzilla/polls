@@ -47,8 +47,12 @@ export const postData = async (payload: PollData, validTill: number): Promise<bo
 
 export const shortenURL = async (longUrl: string, adminId: string): Promise<any> => {
   try {
-    const res: any = await axiosReq.post('/shrink-url', { longUrl, adminId });
-    return { status: true, data: res.data.statusCode };
+    const res: any = await axiosReq.post('/shrink-url', {
+      longUrl,
+      adminId,
+    });
+    console.log(res);
+    return { status: true, data: res.data.data };
   } catch (error) {
     return { status: false, error };
   }

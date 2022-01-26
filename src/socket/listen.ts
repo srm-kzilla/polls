@@ -19,7 +19,7 @@ export const sendDataHandler = async (data: ParamData, io: any, socket: Socket) 
     else if (data.adminId)
       databaseResponse = await (await database()).collection('polls').findOne({ adminId: data.adminId });
     if (databaseResponse === null) throw Error('No Polls with that Unique ID');
-    if (!isValid(databaseResponse.createdAt, databaseResponse.validTill)) {
+    if (isValid(databaseResponse.createdAt, databaseResponse.validTill) == false) {
       errorHandler(io, socket, { success: false, msg: "Poll doesn't exists or expired." });
     }
     sendData(io, socket, databaseResponse);

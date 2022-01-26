@@ -10,6 +10,7 @@ import { IoMdCopy } from 'react-icons/io';
 import { successHandler } from '../../utils/api';
 import Footer from '../../components/footer';
 import { shortenURL } from '../../utils/api';
+import { stringify } from 'querystring';
 
 let socket: Socket;
 
@@ -23,7 +24,8 @@ const AdminPage = () => {
   const [userLink, setUserLink] = useState<any>('');
 
   useEffect(() => {
-    socket = io(URLS.BASE_URL);
+    const socketURL: any = URLS.BASE_URL;
+    socket = io(socketURL);
     socket.emit(SOCKET_EVENTS.GET_DATA, { adminId: id });
   }, [id]);
 
@@ -31,7 +33,7 @@ const AdminPage = () => {
     setQuestions(pollData.question);
     setOptions(pollData.options);
     setUserLink(pollData.shortUrl);
-    if (!userLink || userLink === `${URLS.USER_URL}${pollData.userId}`) {
+    if (!pollData.shortUrl || userLink === `${URLS.USER_URL}${pollData.userId}`) {
       const res = await shortenURL(`${URLS.USER_URL}${pollData.userId}`, id);
       if (!res.status) {
         setUserLink(`${URLS.USER_URL}${pollData.userId}`);

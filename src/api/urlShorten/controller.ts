@@ -10,7 +10,7 @@ export const getShortURL = async (data: urlShort, next: NextFunction) => {
 
   await (await database())
     .collection('polls')
-    .updateOne({ adminId: data.adminId }, { shortUrl: `${URLS.KZILLA_XYZ_URL}${res}` });
+    .updateOne({ adminId: data.adminId }, { $set: { shortUrl: `${URLS.KZILLA_XYZ_URL}${res}` } });
 
   return res;
 };

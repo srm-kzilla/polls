@@ -27,7 +27,8 @@ const UserPage = ({ history }: Props) => {
   const [isExpired, setExpired] = useState<boolean>(false);
 
   useEffect(() => {
-    socket = io(URLS.BASE_URL);
+    const socketURL: any = URLS.BASE_URL;
+    socket = io(socketURL);
     socket.emit(SOCKET_EVENTS.GET_DATA, { userId: id });
     if (localStorage.getItem(id)) {
       setSelectedOption(localStorage.getItem(id));
