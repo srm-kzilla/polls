@@ -1,7 +1,8 @@
-export const isValid = (expData: Date, valid: number): boolean => {
-  const currDate = new Date();
+import { DateTime } from 'luxon';
 
-  var diff = (currDate.getTime() - expData.getTime()) / 1000;
+export const isValid = (createdAt: number, valid: number): boolean => {
+  const currDate = getDate();
+  var diff = (currDate - createdAt) / 1000;
   diff /= 60 * 60;
 
   var diffHours = Math.abs(Math.floor(diff));
@@ -12,4 +13,9 @@ export const isValid = (expData: Date, valid: number): boolean => {
 export const URLS = {
   KZILLA_XYZ_URL: 'https://kzilla.xyz/',
   KZILLA_XYZ_SHORTEN_URL: 'https://kzilla.xyz/api/v1/webhook/link',
+};
+
+export const getDate = () => {
+  var date = DateTime.now().setZone('America/New_York').toMillis();
+  return date;
 };
