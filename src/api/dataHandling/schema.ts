@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { getDate } from '../../shared/utils';
 
 const OptionSchema = yup.object().shape({
   value: yup.string().required(),
@@ -12,6 +13,11 @@ export const DataSchema = yup.object({
   userId: yup.string().required(),
   adminId: yup.string().required(),
   validTill: yup.number().default(1).required(),
-  createdAt: yup.date().default(new Date()).notRequired(),
+  createdAt: yup
+    .number()
+    .default(() => {
+      return getDate();
+    })
+    .notRequired(),
   shortUrl: yup.string().default(null).notRequired().nullable(),
 });
