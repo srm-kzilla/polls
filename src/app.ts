@@ -15,6 +15,7 @@ const startServer = () => {
   app.use(express.json());
   app.use(mongoSanitize());
   app.use(limiter);
+  app.enable('trust proxy');
   app.use('/', route());
   app.use(errorHandler);
 
